@@ -4,7 +4,7 @@ import java.util.List;
 
 import negocio.Usuario;
 
-public class IUsuarioDAO {
+public interface IUsuarioDAO {
 
     void salvar(Usuario usuario);
 
