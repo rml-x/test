@@ -1,9 +1,9 @@
 package negocio;
 
 public class Aluno {
-    private String matricula; // Primary Key
-    private Usuario usuario;  // Mapeamento da FK usuario_id
-    private Curso curso;      // Você pode criar a classe Curso depois e trocar aqui
+    private String matricula; 
+    private Usuario usuario; 
+    private Curso curso;     
     private String status;
 
     public Aluno(){}
