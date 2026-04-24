@@ -1,21 +1,22 @@
 package persistencia;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import negocio.Aluno;
 
 public interface IAluno {
 
-    List<Aluno> listarTodos();
+    List<Aluno> listarTodos() throws SQLException;
 
-    void salvar(Aluno aluno);
+    boolean salvar(Aluno aluno)  throws SQLException;
 
-    Aluno buscar(String matricula);
+    Aluno buscar(String matricula) throws SQLException;
 
-    void atualizar(Aluno aluno);
+    boolean atualizar(Aluno aluno) throws SQLException;
 
-    void excluir(String matricula);
+    void excluir(String matricula) throws SQLException;
 
-    List<Aluno> listarPorCurso(int idCurso);
+    List<Aluno> listarPorCurso(int idCurso) throws SQLException;
 
 }
