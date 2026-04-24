@@ -7,14 +7,14 @@ import negocio.Usuario;
 
 public interface IUsuario {
 
-    void salvar(Usuario usuario);
+    boolean salvar(Usuario usuario) throws SQLException;
 
-    List<Usuario> listarTodos();
+    List<Usuario> listarTodos() throws SQLException;
 
-    void atualizar(Usuario usuario);
+    boolean atualizar(Usuario usuario) throws SQLException;
 
     void excluir(int id) throws SQLException;
 
-    Usuario buscar(Usuario usuario);
+    Usuario buscar(int id) throws SQLException;
     
 }
