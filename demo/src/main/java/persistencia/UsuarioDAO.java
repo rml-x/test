@@ -124,9 +124,9 @@ public class UsuarioDAO implements IUsuario {
 
             try (ResultSet rs = instrucaoSQL.executeQuery()) {
 
-                Usuario usuario = new Usuario();
-
                 if (rs.next()) {
+                    Usuario usuario = new Usuario();
+
                     usuario.setId(rs.getInt("id"));
                     usuario.setNome(rs.getString("nome"));
                     usuario.setEmail(rs.getString("email"));

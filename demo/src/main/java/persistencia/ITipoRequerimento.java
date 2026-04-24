@@ -6,14 +6,14 @@ import negocio.TipoRequerimento;
 
 public interface ITipoRequerimento {
 
-    void salvar(TipoRequerimento tipo);
+    boolean salvar(TipoRequerimento tipo) throws SQLException;
 
-    List<TipoRequerimento> listarTodos();
+    List<TipoRequerimento> listarTodos() throws SQLException;
 
-    void atualizar(TipoRequerimento tipo);
+    boolean atualizar(TipoRequerimento tipo) throws SQLException;
 
-    void excluir(int id);
+    void excluir(int id) throws SQLException;
 
-    TipoRequerimento buscar(TipoRequerimento tipo);
+    TipoRequerimento buscar(int id) throws SQLException;
     
 }
