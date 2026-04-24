@@ -1,5 +1,5 @@
 package persistencia;
-
+import java.sql.SQLException;
 import java.util.List;
 
 import negocio.TipoRequerimento;

@@ -4,7 +4,7 @@ import java.util.List;
 
 import negocio.Curso;
 
-public interface ICursoDAO {
+public interface ICurso {
 
     List<Curso> listarTodos();
 

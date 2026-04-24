@@ -1,10 +1,11 @@
 package persistencia;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import negocio.Usuario;
 
-public interface IUsuarioDAO {
+public interface IUsuario {
 
     void salvar(Usuario usuario);
 
@@ -12,7 +13,7 @@ public interface IUsuarioDAO {
 
     void atualizar(Usuario usuario);
 
-    void excluir(int id);
+    void excluir(int id) throws SQLException;
 
     Usuario buscar(Usuario usuario);
     

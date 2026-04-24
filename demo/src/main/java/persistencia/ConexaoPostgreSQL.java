@@ -4,25 +4,27 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class TesteConexao {
+public class ConexaoPostgreSQL {
 
-    public static void main(String[] args) {
-        String url = "jdbc:postgresql://localhost:5432/sistema_requerimento"; 
-        String usuario = "postgres";
-        String senha = "postgres";
+    String url = "jdbc:postgresql://localhost:5432/sistema_requerimento"; 
+    String usuario = "postgres";
+    String senha = "postgres";
+
+    public Connection getConexao() throws SQLException {
 
         System.out.println("Tentando conectar ao banco de dados...");
 
-        try (Connection conexao = DriverManager.getConnection(url, usuario, senha)) {
+        try(Connection conexao = DriverManager.getConnection(url, usuario, senha)) {
             
             if (conexao != null) {
                 System.out.println("---------------------------------------");
                 System.out.println("SUCESSO: Conexão estabelecida!");
-                System.out.println("Driver utilizado: " + conexao.getMetaData().getDriverName());
                 System.out.println("---------------------------------------");
             }
 
-        } catch (SQLException e) {
+            return conexao;
+
+        } catch(SQLException e) {
             System.err.println("ERRO ao conectar:");
             
             if (e.getMessage().contains("password authentication failed")) {
@@ -31,7 +33,12 @@ public class TesteConexao {
                 System.err.println("Causa: O serviço do PostgreSQL não está rodando ou a porta 5432 está fechada.");
             } else {
                 e.printStackTrace();
+
             }
+
+            throw e;
         }
+
     }
+    
 }

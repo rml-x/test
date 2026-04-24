@@ -4,7 +4,7 @@ import java.util.List;
 
 import negocio.Anexo;
 
-public interface IAnexoDAO {
+public interface IAnexo {
 
     List<Anexo> listarTodos();
 

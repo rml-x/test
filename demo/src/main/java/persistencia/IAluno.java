@@ -4,7 +4,7 @@ import java.util.List;
 
 import negocio.Aluno;
 
-public interface IAlunoDAO {
+public interface IAluno {
 
     List<Aluno> listarTodos();
 
