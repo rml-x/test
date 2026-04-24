@@ -6,11 +6,11 @@ import negocio.Aluno;
 
 public interface IAlunoDAO {
 
-    void salvar(Aluno aluno);
-
     List<Aluno> listarTodos();
 
-    Aluno buscarPorMatricula(String matricula);
+    void salvar(Aluno aluno);
+
+    Aluno buscar(String matricula);
 
     void atualizar(Aluno aluno);
 

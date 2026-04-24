@@ -6,14 +6,14 @@ import negocio.Anexo;
 
 public interface IAnexoDAO {
 
-    void salvar(Anexo anexo);
-
     List<Anexo> listarTodos();
+
+    void salvar(Anexo anexo);
 
     void atualizar(Anexo anexo);
 
     void excluir(int id);
 
-    void obter(Anexo anexo);
+    Anexo buscar(Anexo anexo);
     
 }

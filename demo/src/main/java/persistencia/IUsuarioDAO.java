@@ -14,6 +14,6 @@ public interface IUsuarioDAO {
 
     void excluir(int id);
 
-    void obter(Usuario usuario);
+    Usuario buscar(Usuario usuario);
     
 }

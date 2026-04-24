@@ -3,22 +3,20 @@ package persistencia;
 import java.util.List;
 
 import negocio.Requerimento;
-import negocio.TipoRequerimento;
 
 public interface IRequerimento {
 
     List<Requerimento>listarTodos();
 
-    void buscarPorId(int id);
+    Requerimento buscar(int id);
 
-    List<Requerimento>listarPorAluno(String matricula);
-
-    void salvar(Requerimento requerimento);
+    List<Requerimento>listarRequerimentoPorAluno(String matricula);
 
     void atualizar(Requerimento requerimento);
 
-    void excluir(Requerimento requerimento);
+    void excluir(int id);
 
-    void abrirRequerimento(String matricula, int tipoId, TipoRequerimento tipo, String observacao);
+    //create
+    void abrirRequerimento(String matricula, int tipoId, String observacao);
 
 }

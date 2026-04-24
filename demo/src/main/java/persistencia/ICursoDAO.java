@@ -6,13 +6,13 @@ import negocio.Curso;
 
 public interface ICursoDAO {
 
-    void salvar(Curso curso);
-
     List<Curso> listarTodos();
+
+    void salvar(Curso curso);
 
     void atualizar(Curso curso);
 
     void excluir(int id);
 
-    void obter(Curso curso);
+    Curso buscar(Curso curso);
 }
