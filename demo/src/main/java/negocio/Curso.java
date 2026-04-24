@@ -46,10 +46,11 @@ public class Curso {
         this.turno = turno;
     }
 
-    public int setDuracao(){
-        return duracao;
+    public int getDuracao() {
+        return this.duracao;
     }
-    public void getDuracao(int duracao){
+
+    public void setDuracao(int duracao) {
         this.duracao = duracao;
     }
 
@@ -59,4 +60,6 @@ public class Curso {
     public void getAtivo(boolean ativo){
         this.ativo = ativo;
     }
+
+
 }
