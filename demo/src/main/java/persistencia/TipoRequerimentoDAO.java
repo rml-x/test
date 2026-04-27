@@ -46,7 +46,7 @@ public class TipoRequerimentoDAO implements ITipoRequerimento {
             instrucaoSQL.executeUpdate();
         }
         
-    }
+    } 
 
     public List<TipoRequerimento> listarTodos() throws SQLException {
 
