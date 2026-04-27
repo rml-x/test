@@ -1,11 +1,11 @@
 package negocio;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class Requerimento {
     private int id;
-    private LocalDateTime data_hora_abertura;
-    private LocalDateTime data_hora_encerramento;
+    private Timestamp data_hora_abertura;
+    private Timestamp data_hora_encerramento;
     private String observacao;
     private String status;
     private TipoRequerimento tipo;
@@ -13,7 +13,7 @@ public class Requerimento {
 
     public Requerimento(){}
 
-    public Requerimento(LocalDateTime data_hora_abertura, LocalDateTime data_hora_encerramento, String observacao, String status, TipoRequerimento tipo, Aluno aluno){
+    public Requerimento(Timestamp data_hora_abertura, Timestamp data_hora_encerramento, String observacao, String status, TipoRequerimento tipo, Aluno aluno){
         this.data_hora_abertura = data_hora_abertura;
         this.data_hora_encerramento = data_hora_encerramento;
         this.observacao = observacao;
@@ -29,17 +29,17 @@ public class Requerimento {
         this.id = id;
     }
 
-    public LocalDateTime getDataHoraAbertura(){
+    public Timestamp getDataHoraAbertura(){
         return data_hora_abertura;
     }
-    public void setDataHoraAbertura(LocalDateTime data_hora_abertura){
+    public void setDataHoraAbertura(Timestamp data_hora_abertura){
         this.data_hora_abertura = data_hora_abertura;
     }
 
-    public LocalDateTime getDataHoraEncerramento(){
+    public Timestamp getDataHoraEncerramento(){
         return data_hora_encerramento;
     }
-    public void setDataHoraEncerramento(LocalDateTime data_hora_encerramento){
+    public void setDataHoraEncerramento(Timestamp data_hora_encerramento){
         this.data_hora_encerramento = data_hora_encerramento;
     }
 
