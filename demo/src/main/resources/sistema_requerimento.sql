@@ -22,7 +22,7 @@ CREATE TABLE usuario (
     cep character(8),
     rua text,
     complemento text,
-    nro character varying(10)
+    nro character varying(10),
     ativo BOOLEAN DEFAULT TRUE
 );
 
@@ -30,13 +30,13 @@ CREATE TABLE aluno (
     matricula character(10) primary key,
     usuario_id integer references usuario (id), -- fk
     curso_id integer references curso (id), -- fk
-    status character varying(200) check(status in('CURSANDO', 'ABANDONO', 'TRANCADO', 'FORMADO')) DEFAULT 'CURSANDO'
+    status character varying(200) check(status in('CURSANDO', 'ABANDONO', 'TRANCADO', 'FORMADO')) DEFAULT 'CURSANDO',
     ativo BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE tipo_requerimento (
     id serial primary key,
-    descricao text not null
+    descricao text not null,
     ativo BOOLEAN DEFAULT TRUE
 );
 
@@ -67,7 +67,7 @@ CREATE TABLE requerimento (
     data_hora_encerramento timestamp,
     observacao text,
     status text check(status in ('EM ANALISE', 'INDEFERIDO', 'DEFERIDO')) DEFAULT 'EM ANALISE',
-    tipo_requerimento_id integer references tipo_requerimento (id) -- fk
+    tipo_requerimento_id integer references tipo_requerimento (id), -- fk
     ativo BOOLEAN DEFAULT TRUE
 );
 
@@ -75,7 +75,7 @@ CREATE TABLE anexo (
     id serial primary key,
     descricao text not null,
     arquivo bytea,
-    requerimento_id integer references requerimento (id) -- fk
+    requerimento_id integer references requerimento (id), -- fk
     ativo BOOLEAN DEFAULT TRUE
 );
 

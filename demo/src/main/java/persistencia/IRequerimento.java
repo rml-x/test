@@ -8,8 +8,6 @@ public interface IRequerimento {
 
     List<Requerimento>listarTodos() throws SQLException;
 
-    Requerimento buscar(int id) throws SQLException;
-
     List<Requerimento>listarRequerimentoPorAluno(String matricula) throws SQLException;
 
     void atualizar(Requerimento requerimento) throws SQLException;

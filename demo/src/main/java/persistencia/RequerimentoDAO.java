@@ -20,7 +20,7 @@ public class RequerimentoDAO implements IRequerimento {
     public List<Requerimento>listarTodos() throws SQLException{
         
         List<Requerimento> lista = new ArrayList<Requerimento>();
-        String sql = "SELECT r.*, u.nome AS nome_aluno, c.nome AS nome_curso, tr.observacao AS obs FROM requerimento r INNER JOIN aluno a ON r.matricula_aluno = a.matricula INNER JOIN usuario u ON a.usuario_id = u.id INNER JOIN curso c ON a.curso_id = c.id INNER JOIN tipo_requerimento tr ON r.tipo_id = tr.id WHERE r.ativo IS TRUE ORDER BY r.id DESC";
+        String sql ="SELECT r.*, u.nome AS nome_aluno, c.nome AS nome_curso, tr.descricao AS tipo_descricao FROM requerimento r INNER JOIN aluno a ON r.aluno_matricula = a.matricula INNER JOIN usuario u ON a.usuario_id = u.id INNER JOIN curso c ON a.curso_id = c.id INNER JOIN tipo_requerimento tr ON r.tipo_requerimento_id = tr.id WHERE r.ativo IS TRUE AND r.aluno_matricula = ? ORDER BY r.data_hora_abertura DESC";
 
         try (Connection conn = new ConexaoPostgreSQL().getConexao();
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -31,6 +31,7 @@ public class RequerimentoDAO implements IRequerimento {
 
                 req.setId(rs.getInt("id"));
                 req.setObservacao(rs.getString("observacao"));
+                req.setDataHoraEncerramento(rs.getTimestamp("data_hora_encerramento"));
                 req.setDataHoraAbertura(rs.getTimestamp("data_hora_abertura"));
                 req.setStatus(rs.getString("status"));
                 
@@ -62,15 +63,12 @@ public class RequerimentoDAO implements IRequerimento {
 
     }
 
-    public Requerimento buscar(int id) throws SQLException{
-
-    }
-
+    //read
     public List<Requerimento> listarRequerimentoPorAluno(String matricula) throws SQLException {
         
-        String sql = "SELECT r.*, u.nome AS nome_aluno, c.nome AS nome_curso, tr.descricao AS tipo_descricao FROM requerimento r INNER JOIN aluno a ON r.matricula_aluno = a.matricula INNER JOIN usuario u ON a.usuario_id = u.id INNER JOIN curso c ON a.curso_id = c.id INNER JOIN tipo_requerimento tr ON r.tipo_id = tr.id WHERE r.ativo IS TRUE AND r.matricula_aluno = ? ORDER BY r.id DESC";
+        String sql = "SELECT r.*, u.nome AS nome_aluno, c.nome AS nome_curso, tr.descricao AS tipo_descricao FROM requerimento r INNER JOIN aluno a ON r.aluno_matricula = a.matricula INNER JOIN usuario u ON a.usuario_id = u.id INNER JOIN curso c ON a.curso_id = c.id INNER JOIN tipo_requerimento tr ON r.tipo_requerimento_id = tr.id WHERE r.ativo IS TRUE AND r.aluno_matricula = ? ORDER BY r.data_hora_abertura DESC;";
 
-        List<Requerimento> reqPerAluno = new ArrayList<>();
+        List<Requerimento> reqPerAluno = new ArrayList<Requerimento>();
 
         try (Connection conn = new ConexaoPostgreSQL().getConexao();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -82,6 +80,7 @@ public class RequerimentoDAO implements IRequerimento {
                     Requerimento req = new Requerimento();
                     req.setId(rs.getInt("id"));
                     req.setObservacao(rs.getString("observacao"));
+                    req.setDataHoraEncerramento(rs.getTimestamp("data_hora_encerramento"));
                     req.setDataHoraAbertura(rs.getTimestamp("data_hora_abertura"));
                     req.setStatus(rs.getString("status"));
 
@@ -113,6 +112,9 @@ public class RequerimentoDAO implements IRequerimento {
     
 
     public void atualizar(Requerimento requerimento) throws SQLException{
+
+        String sql = "UPDATE requerimento SET data_hora_encerramento = ?, status = ? WHERE matricula = ?";
+
 
     }
 
