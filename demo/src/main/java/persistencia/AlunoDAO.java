@@ -136,7 +136,7 @@ public class AlunoDAO implements IAluno {
         try (Connection conn = new ConexaoPostgreSQL().getConexao();
             PreparedStatement instrucaoSQL = conn.prepareStatement(sql)) {
                     
-            instrucaoSQL.setString(1, matricula); // Correto: setString para matrícula
+            instrucaoSQL.setString(1, matricula); 
             instrucaoSQL.executeUpdate();
         }
     }
