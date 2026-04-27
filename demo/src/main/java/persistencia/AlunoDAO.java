@@ -9,7 +9,6 @@ import java.util.List;
 
 import negocio.Aluno;
 import negocio.Curso;
-import negocio.TipoRequerimento;
 import negocio.Usuario;
 
 public class AlunoDAO implements IAluno {
@@ -133,18 +132,50 @@ public class AlunoDAO implements IAluno {
     }
 
     public void excluir(String matricula) throws SQLException {
-
-        String sql = "UPDATE aluno SET ativo = FALSE where id = ?;";  
+        String sql = "UPDATE aluno SET ativo = FALSE WHERE matricula = ?;"; 
         try (Connection conn = new ConexaoPostgreSQL().getConexao();
             PreparedStatement instrucaoSQL = conn.prepareStatement(sql)) {
-                
-            instrucaoSQL.setInt(1, id);
+                    
+            instrucaoSQL.setString(1, matricula); // Correto: setString para matrícula
             instrucaoSQL.executeUpdate();
         }
     }
 
     public List<Aluno> listarPorCurso(int idCurso) throws SQLException {
 
+        List<Aluno> vetorAlunoCurso = new ArrayList<Aluno>();
+        String sql = "SELECT a.*, u.nome, u.email, u.cpf, c.nome AS nome_curso FROM aluno a INNER JOIN usuario u ON a.usuario_id = u.id INNER JOIN curso c ON a.curso_id = c.id WHERE a.curso_id = ? AND a.ativo IS TRUE ORDER BY u.nome ASC";
+    
+        try (Connection conn = new ConexaoPostgreSQL().getConexao();
+        PreparedStatement instrucaoSQL = conn.prepareStatement(sql)) {
+
+            instrucaoSQL.setInt(1, idCurso);
+
+            try (ResultSet rs = instrucaoSQL.executeQuery()) {
+                while (rs.next()) {
+                    Aluno aluno = new Aluno();
+                    aluno.setMatricula(rs.getString("matricula"));
+                    aluno.setStatus(rs.getString("status"));
+
+                    // Objeto Usuário
+                    Usuario usuario = new Usuario();
+                    usuario.setId(rs.getInt("usuario_id"));
+                    usuario.setNome(rs.getString("nome"));
+                    usuario.setEmail(rs.getString("email"));
+                    usuario.setCpf(rs.getString("cpf"));
+                    aluno.setUsuario(usuario);
+
+                    // Objeto Curso
+                    Curso curso = new Curso();
+                    curso.setId(rs.getInt("curso_id"));
+                    curso.setNome(rs.getString("nome_curso"));
+                    aluno.setCurso(curso);
+
+                    vetorAlunoCurso.add(aluno);
+                }
+            }
+        }
+        return vetorAlunoCurso;
     }
     
 }
