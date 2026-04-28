@@ -62,7 +62,7 @@ INSERT INTO tipo_requerimento (descricao) VALUES
 
 CREATE TABLE requerimento (
     id serial primary key,
-    aluno_matricula character(10) references aluno (matricula),
+    matricula character(10) references aluno (matricula),
     data_hora_abertura timestamp default current_timestamp,
     data_hora_encerramento timestamp,
     observacao text,
@@ -96,7 +96,7 @@ INSERT INTO aluno (matricula, usuario_id, curso_id, status) VALUES
 ('2023100002', 2, 2, 'CURSANDO'), -- Ana em ADS
 ('2022100050', 3, 1, 'TRANCADO'); -- Beatriz em Ciência da Computação
 
-INSERT INTO requerimento (aluno_matricula, observacao, status, tipo_requerimento_id) VALUES
+INSERT INTO requerimento (matricula, observacao, status, tipo_requerimento_id) VALUES
 ('2023100001', 'Solicito aproveitamento da disciplina de Algoritmos.', 'EM ANALISE', 3),
 ('2023100002', 'Perdi a prova de BD devido a problemas de saude.', 'DEFERIDO', 9),
 ('2022100050', 'Gostaria de trancar a matricula por motivos pessoais.', 'INDEFERIDO', 16);

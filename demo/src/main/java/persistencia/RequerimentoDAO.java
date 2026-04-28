@@ -20,7 +20,7 @@ public class RequerimentoDAO implements IRequerimento {
     public List<Requerimento>listarTodos() throws SQLException{
         
         List<Requerimento> lista = new ArrayList<Requerimento>();
-        String sql ="SELECT r.*, u.nome AS nome_aluno, c.nome AS nome_curso, tr.descricao AS tipo_descricao FROM requerimento r INNER JOIN aluno a ON r.aluno_matricula = a.matricula INNER JOIN usuario u ON a.usuario_id = u.id INNER JOIN curso c ON a.curso_id = c.id INNER JOIN tipo_requerimento tr ON r.tipo_requerimento_id = tr.id WHERE r.ativo IS TRUE AND r.aluno_matricula = ? ORDER BY r.data_hora_abertura DESC";
+        String sql = "SELECT r.*, u.nome AS nome_aluno, c.nome AS nome_curso, tr.descricao AS tipo_descricao FROM requerimento r INNER JOIN aluno a ON r.matricula = a.matricula INNER JOIN usuario u ON a.usuario_id = u.id INNER JOIN curso c ON a.curso_id = c.id INNER JOIN tipo_requerimento tr ON r.tipo_requerimento_id = tr.id WHERE r.ativo IS TRUE ORDER BY r.matricula ASC, r.data_hora_abertura DESC";
 
         try (Connection conn = new ConexaoPostgreSQL().getConexao();
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -37,7 +37,7 @@ public class RequerimentoDAO implements IRequerimento {
                 
                
                 Aluno aluno = new Aluno();
-                aluno.setMatricula(rs.getString("matricula_aluno"));
+                aluno.setMatricula(rs.getString("matricula"));
                 
                 Usuario usu = new Usuario();
                 usu.setNome(rs.getString("nome_aluno"));
@@ -50,7 +50,7 @@ public class RequerimentoDAO implements IRequerimento {
                 req.setAluno(aluno); // Adiciona o aluno ao requerimento
 
                 TipoRequerimento tipo = new TipoRequerimento();
-                tipo.setId(rs.getInt("tipo_id"));
+                tipo.setId(rs.getInt("tipo_requerimento_id"));
                 tipo.setDescricao(rs.getString("tipo_descricao"));
                 
                 req.setTipo(tipo); // Adiciona o tipo ao requerimento
@@ -66,7 +66,7 @@ public class RequerimentoDAO implements IRequerimento {
     //read
     public List<Requerimento> listarRequerimentoPorAluno(String matricula) throws SQLException {
         
-        String sql = "SELECT r.*, u.nome AS nome_aluno, c.nome AS nome_curso, tr.descricao AS tipo_descricao FROM requerimento r INNER JOIN aluno a ON r.aluno_matricula = a.matricula INNER JOIN usuario u ON a.usuario_id = u.id INNER JOIN curso c ON a.curso_id = c.id INNER JOIN tipo_requerimento tr ON r.tipo_requerimento_id = tr.id WHERE r.ativo IS TRUE AND r.aluno_matricula = ? ORDER BY r.data_hora_abertura DESC;";
+        String sql = "SELECT r.*, u.nome AS nome_aluno, c.nome AS nome_curso, tr.descricao AS tipo_descricao FROM requerimento r INNER JOIN aluno a ON r.matricula = a.matricula INNER JOIN usuario u ON a.usuario_id = u.id INNER JOIN curso c ON a.curso_id = c.id INNER JOIN tipo_requerimento tr ON r.tipo_requerimento_id = tr.id WHERE r.ativo IS TRUE AND r.matricula = ? ORDER BY r.data_hora_abertura DESC;";
 
         List<Requerimento> reqPerAluno = new ArrayList<Requerimento>();
 
@@ -86,7 +86,7 @@ public class RequerimentoDAO implements IRequerimento {
 
                     // Aluno
                     Aluno aluno = new Aluno();
-                    aluno.setMatricula(rs.getString("matricula_aluno"));
+                    aluno.setMatricula(rs.getString("matricula"));
                     
                     Usuario usu = new Usuario();
                     usu.setNome(rs.getString("nome_aluno"));
@@ -111,10 +111,23 @@ public class RequerimentoDAO implements IRequerimento {
     }
     
 
-    public void atualizar(Requerimento requerimento) throws SQLException{
+    public boolean atualizar(Requerimento requerimento) throws SQLException{
 
-        String sql = "UPDATE requerimento SET data_hora_encerramento = ?, status = ? WHERE matricula = ?";
+        String sql = "UPDATE requerimento SET data_hora_encerramento = ?, status = ? WHERE id = ?";
 
+        try (Connection conn = new ConexaoPostgreSQL().getConexao();
+            PreparedStatement instrucaoSQL = conn.prepareStatement(sql)) {
+        
+            instrucaoSQL.setTimestamp(1, requerimento.getDataHoraEncerramento());
+
+            instrucaoSQL.setString(2, requerimento.getStatus());
+
+            instrucaoSQL.setInt(3, requerimento.getId());
+
+            int num = instrucaoSQL.executeUpdate();
+            
+            return num != 0; 
+        } 
 
     }
 
@@ -132,7 +145,30 @@ public class RequerimentoDAO implements IRequerimento {
     }
 
     //create
-    public void abrirRequerimento(String matricula, int tipoId, String observacao) throws SQLException{
+    public boolean abrirRequerimento(String matricula, int tipoId, String observacao) throws SQLException{
+
+        String sql = "INSERT INTO requerimento (matricula, tipo_requerimento_id, observacao) VALUES (?, ?, ?)";
+
+        try (Connection conn = new ConexaoPostgreSQL().getConexao();
+        PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+    
+            stmt.setString(1, matricula);
+            stmt.setInt(2, tipoId); 
+            stmt.setString(3, observacao);
+
+            int rowsAffected = stmt.executeUpdate(); 
+
+            if (rowsAffected > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        int idGerado = rs.getInt(1);
+                        System.out.println("Requerimento aberto com ID: " + idGerado);
+                    }
+                }
+                return true;
+                }
+        }
+        return false;
 
     }
 

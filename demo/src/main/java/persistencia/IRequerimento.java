@@ -10,11 +10,11 @@ public interface IRequerimento {
 
     List<Requerimento>listarRequerimentoPorAluno(String matricula) throws SQLException;
 
-    void atualizar(Requerimento requerimento) throws SQLException;
+    boolean atualizar(Requerimento requerimento) throws SQLException;
 
     void excluir(int id) throws SQLException;
 
     //create
-    void abrirRequerimento(String matricula, int tipoId, String observacao) throws SQLException;
+    boolean abrirRequerimento(String matricula, int tipoId, String observacao) throws SQLException;
 
 }

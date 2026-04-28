@@ -31,14 +31,14 @@ public class AlunoDAO implements IAluno {
                 aluno.setStatus(rs.getString("status"));
 
                 Usuario usuario = new Usuario();
-                usuario.setId(rs.getInt("usuario_id")); // ID que vem da tabela aluno
-                usuario.setNome(rs.getString("nome"));     // Vem da tabela usuario via JOIN
+                usuario.setId(rs.getInt("usuario_id"));
+                usuario.setNome(rs.getString("nome"));     
                 usuario.setEmail(rs.getString("email"));
                 usuario.setCpf(rs.getString("cpf"));
 
                 Curso curso = new Curso();
-                curso.setId(rs.getInt("curso_id"));     // ID que vem da tabela aluno
-                curso.setNome(rs.getString("nome_curso")); // Vem da tabela curso via JOIN
+                curso.setId(rs.getInt("curso_id"));  
+                curso.setNome(rs.getString("nome_curso")); 
                 
                 aluno.setUsuario(usuario);
                 aluno.setCurso(curso);
