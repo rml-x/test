@@ -97,6 +97,7 @@ public class CursoDAO implements ICurso {
             instrucaoSQL.executeUpdate();
         }
 
+
     }
 
     public Curso buscar(int id)throws SQLException{

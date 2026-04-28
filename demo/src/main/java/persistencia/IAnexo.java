@@ -1,19 +1,20 @@
 package persistencia;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import negocio.Anexo;
 
 public interface IAnexo {
 
-    List<Anexo> listarTodos();
+    List<Anexo> listarTodos() throws SQLException;
 
-    void salvar(Anexo anexo);
+    boolean salvar(Anexo anexo) throws SQLException;
 
-    void atualizar(Anexo anexo);
+    boolean atualizar(Anexo anexo) throws SQLException;
 
-    void excluir(int id);
+    void excluir(int id) throws SQLException;
 
-    Anexo buscar(Anexo anexo);
+    Anexo buscar(Anexo anexo) throws SQLException;
     
 }

@@ -14,7 +14,9 @@ public class ConexaoPostgreSQL {
 
         System.out.println("Tentando conectar ao banco de dados...");
 
-        try(Connection conexao = DriverManager.getConnection(url, usuario, senha)) {
+        try {
+            
+            Connection conexao = DriverManager.getConnection(url, usuario, senha);
             
             if (conexao != null) {
                 System.out.println("---------------------------------------");
