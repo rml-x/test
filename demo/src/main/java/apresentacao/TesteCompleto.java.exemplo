@@ -1,0 +1,107 @@
+package apresentacao;
+
+import java.sql.SQLException;
+import java.util.List;
+import negocio.Anexo;
+import negocio.Requerimento;
+import persistencia.AnexoDAO;
+import persistencia.RequerimentoDAO;
+
+public class TesteCompleto {
+    
+    public static void main(String[] args) {
+        RequerimentoDAO reqDAO = new RequerimentoDAO();
+        AnexoDAO anexoDAO = new AnexoDAO();
+
+        try {
+            System.out.println("========== INICIANDO TESTES DE CRUD (SEM DELETE) ==========");
+
+            // -------------------------------------------------------
+            // 1. TESTE DE CRIAÇÃO (CREATE)
+            // -------------------------------------------------------
+            System.out.println("\n[OPERACAO: CREATE]");
+            
+            // Abrindo Requerimento
+            String matriculaTeste = "2023100001";
+            boolean reqCriado = reqDAO.abrirRequerimento(matriculaTeste, 2, "Solicitação de Trancamento de Disciplina");
+            System.out.println("Requerimento para " + matriculaTeste + ": " + (reqCriado ? "CRIADO" : "FALHA"));
+
+            // -------------------------------------------------------
+            // 2. TESTE DE LEITURA (READ)
+            // -------------------------------------------------------
+            System.out.println("\n[OPERACAO: READ]");
+            
+            // Listar todos os requerimentos do sistema
+            List<Requerimento> todosReqs = reqDAO.listarTodos();
+            System.out.println("Total de requerimentos no sistema: " + todosReqs.size());
+
+            if (!todosReqs.isEmpty()) {
+                Requerimento ultimo = todosReqs.get(0); // Pega o mais recente pela ordenação
+                System.out.println("Detalhes do último Requerimento:");
+                System.out.println(" - Aluno: " + ultimo.getAluno().getUsuario().getNome());
+                System.out.println(" - Curso: " + ultimo.getAluno().getCurso().getNome());
+                System.out.println(" - Tipo:  " + ultimo.getTipo().getDescricao());
+                
+                // Testar busca de Anexos
+                System.out.println("\nListando todos os anexos cadastrados...");
+                List<Anexo> listaAnexos = anexoDAO.listarTodos();
+                for (Anexo a : listaAnexos) {
+                    System.out.println(" - Anexo ID: " + a.getId() + " | Desc: " + a.getDescricao() + " | Para Req ID: " + a.getRequerimento().getId());
+                }
+            }
+
+            // -------------------------------------------------------
+            // 3. TESTE DE BUSCA ESPECÍFICA (READ BY OBJECT)
+            // -------------------------------------------------------
+            System.out.println("\n[OPERACAO: READ BY OBJECT]");
+            List<Anexo> anexos = anexoDAO.listarTodos();
+            if (!anexos.isEmpty()) {
+                Anexo filtro = new Anexo();
+                filtro.setId(anexos.get(0).getId()); // Busca pelo ID do primeiro que encontrar
+                
+                Anexo encontrado = anexoDAO.buscar(filtro);
+                if (encontrado != null) {
+                    System.out.println("Busca de Anexo bem-sucedida: " + encontrado.getDescricao());
+                    System.out.println("Tamanho do arquivo binário: " + encontrado.getArquivo().length + " bytes");
+                }
+            }
+
+            // -------------------------------------------------------
+            // 4. TESTE DE ATUALIZAÇÃO (UPDATE)
+            // -------------------------------------------------------
+            System.out.println("\n[OPERACAO: UPDATE]");
+            
+            if (!todosReqs.isEmpty()) {
+                Requerimento reqParaAtualizar = todosReqs.get(0);
+                
+                // Alterando dados do Requerimento
+                reqParaAtualizar.setStatus("DEFERIDO");
+                reqParaAtualizar.setObservacao(reqParaAtualizar.getObservacao() + " (ATUALIZADO)");
+                
+                if (reqDAO.atualizar(reqParaAtualizar)) {
+                    System.out.println("Requerimento ID " + reqParaAtualizar.getId() + " atualizado com sucesso!");
+                }
+                
+                // Alterando dados de um Anexo
+                if (!anexos.isEmpty()) {
+                    Anexo anexoParaAtualizar = anexos.get(0);
+                    anexoParaAtualizar.setDescricao("ARQUIVO_CORRIGIDO.pdf");
+                    
+                    if (anexoDAO.atualizar(anexoParaAtualizar)) {
+                        System.out.println("Anexo ID " + anexoParaAtualizar.getId() + " renomeado com sucesso!");
+                    }
+                }
+            }
+
+            System.out.println("\n========== FIM DOS TESTES DE CRUD ==========");
+
+        } catch (SQLException e) {
+            System.err.println("\nERRO SQL durante os testes:");
+            System.err.println("Estado SQL: " + e.getSQLState());
+            System.err.println("Mensagem: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("\nERRO inesperado:");
+            e.printStackTrace();
+        }
+    }
+}
