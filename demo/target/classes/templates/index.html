@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Lista de Cursos</title>
+
+
+
+</head>
+<body>
+{{teste}}
+<h1 class="titulo">Lista de Cursos</h1>
+
+<a class="botao-adicionar" href="/curso/tela_adicionar"> Adicionar Curso</a>
+
+<ul class="lista-cursos">
+  {{#vetCurso}}
+    <li>
+        <div>
+            <span class="badge">ID {{id}}</span>
+            <span class="nome-curso">{{nome}}</span>
+        </div>
+
+        <a class="btn-excluir" href="/curso/excluir/{{id}}">Excluir</a>
+          <a class="btn-excluir" href="/curso/tela_alterar/{{id}}">Alterar</a>
+
+    </li>
+  {{/vetCurso}}
+</ul>
+  <a href="/usuarios">usuarios</a>
+</body>
+</html>

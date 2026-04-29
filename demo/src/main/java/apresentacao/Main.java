@@ -1,11 +1,12 @@
-package apresentacao; // use your GroupId as the package name
-
+package apresentacao; 
 import io.javalin.Javalin;
+import io.javalin.rendering.template.JavalinMustache;
 
 public class Main {
     public static void main(String[] args) {
+
         var app = Javalin.create(/*config*/)
             .get("/", ctx -> ctx.result("Hello World"))
-            .start(7000);
+            .start(7070);
     }
 }
