@@ -12,10 +12,10 @@
 {{teste}}
 <h1 class="titulo">Lista de Cursos</h1>
 
-<a class="botao-adicionar" href="/curso/tela_adicionar"> Adicionar Curso</a>
+<a class="botao-adicionar" href="/curso/tela_adicionar">+ Adicionar Curso</a>
 
 <ul class="lista-cursos">
-  {{#vetCurso}}
+  {{#vetorCurso}}
     <li>
         <div>
             <span class="badge">ID {{id}}</span>
@@ -26,7 +26,7 @@
           <a class="btn-excluir" href="/curso/tela_alterar/{{id}}">Alterar</a>
 
     </li>
-  {{/vetCurso}}
+  {{/vetorCurso}}
 </ul>
   <a href="/usuarios">usuarios</a>
 </body>
