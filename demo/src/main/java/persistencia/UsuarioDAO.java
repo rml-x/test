@@ -80,7 +80,8 @@ public class UsuarioDAO implements IUsuario {
                 usuario.setCep(rs.getString("cep"));
                 usuario.setRua(rs.getString("rua"));
                 usuario.setComplemento(rs.getString("complemento"));
-                usuario.setNro(rs.getString("nro"));            
+                usuario.setNro(rs.getString("nro"));
+                usuario.setSenha(rs.getString("senha"));            
                 // e coloco/acrescento como um novo elemento da colecao 
                 vetorUsuario.add(usuario);
             }
@@ -91,7 +92,7 @@ public class UsuarioDAO implements IUsuario {
     
     public boolean atualizar(Usuario usuario) throws SQLException {
         
-        String sql = "UPDATE usuario SET nome = ?, email = ?, cpf = ?, data_nascimento = ?, cep = ?, rua = ?, complemento = ?, nro = ? where id = ?";
+        String sql = "UPDATE usuario SET nome = ?, email = ?, cpf = ?, data_nascimento = ?, cep = ?, rua = ?, complemento = ?, nro = ?, senha = ? where id = ?";
 
         try (Connection conn = new ConexaoPostgreSQL().getConexao();
             PreparedStatement instrucaoSQL = conn.prepareStatement(sql)) {
@@ -104,7 +105,8 @@ public class UsuarioDAO implements IUsuario {
             instrucaoSQL.setString(6, usuario.getRua());
             instrucaoSQL.setString(7, usuario.getComplemento());
             instrucaoSQL.setString(8, usuario.getNro());
-            instrucaoSQL.setInt(9, usuario.getId());
+            instrucaoSQL.setString(9, usuario.getSenha());
+            instrucaoSQL.setInt(10, usuario.getId());
             
             int num = instrucaoSQL.executeUpdate();
             return num != 0; 
@@ -136,6 +138,7 @@ public class UsuarioDAO implements IUsuario {
                     usuario.setRua(rs.getString("rua"));
                     usuario.setComplemento(rs.getString("complemento"));
                     usuario.setNro(rs.getString("nro")); 
+                    usuario.setSenha(rs.getString("senha"));
 
                     return usuario; 
                 } 

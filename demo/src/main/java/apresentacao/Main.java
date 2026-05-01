@@ -133,6 +133,7 @@ public class Main {
                 String email = ctx.formParam("email");
                 String cpf = ctx.formParam("cpf");
                 String dataNascimento = ctx.formParam("data_nascimento");
+                String senha = ctx.formParam("senha");
                 String cep = ctx.formParam("cep");
                 String rua = ctx.formParam("rua");
                 String complemento = ctx.formParam("complemento");
@@ -141,8 +142,8 @@ public class Main {
                 Usuario usuario = new Usuario();
                 usuario.setNome(nome);
                 usuario.setEmail(email);
-                System.out.println(dataNascimento);
                 usuario.setDataNascimento(LocalDate.parse(dataNascimento));
+                usuario.setSenha(senha);
                 usuario.setCpf(cpf);
                 usuario.setCep(cep);
                 usuario.setRua(rua);
@@ -166,7 +167,7 @@ public class Main {
                 ctx.render("/templates/usuario/tela_alterar.html", map);
             });
 
-            config.routes.post("//tela_alterar", ctx -> {
+            config.routes.post("/tela_alterar", ctx -> {
                 int id = Integer.parseInt(ctx.formParam("id"));
                 String nome = ctx.formParam("nome");
                 String site = ctx.formParam("site");
@@ -192,7 +193,7 @@ public class Main {
             });
 
 
-            */
+            
 
 
 

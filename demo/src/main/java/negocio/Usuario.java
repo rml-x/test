@@ -12,11 +12,12 @@ public class Usuario {
     private String rua;
     private String complemento;
     private String nro;
+    private String senha;
 
     public Usuario(){}
 
     public Usuario(String nome, String email, String cpf, LocalDate data_nascimento, 
-        String cep, String rua, String complemento, String nro){
+        String cep, String rua, String complemento, String nro, String senha){
 
         this.nome = nome;
         this.email = email;
@@ -26,6 +27,7 @@ public class Usuario {
         this.rua = rua;
         this.complemento = complemento;
         this.nro = nro;
+        this.senha = senha;
     }
 
     public int getId(){
@@ -90,6 +92,15 @@ public class Usuario {
     public void setNro(String nro){
         this.nro = nro;
     }
+
+    public String getSenha(){
+        return senha;
+    }
+    public void setSenha(String senha){
+        this.senha = senha;
+    }
+
+
 
 
 }

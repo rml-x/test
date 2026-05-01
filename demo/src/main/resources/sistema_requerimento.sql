@@ -23,7 +23,8 @@ CREATE TABLE usuario (
     rua text,
     complemento text,
     nro character varying(10),
-    ativo BOOLEAN DEFAULT TRUE
+    ativo BOOLEAN DEFAULT TRUE,
+    senha TEXT
 );
 
 CREATE TABLE aluno (
@@ -86,10 +87,10 @@ INSERT INTO curso (nome, site, turno, duracao) VALUES
 ('Analise e Desenvolvimento de Sistemas', 'http://ifrs.edu.br/ads', 'VESPERTINO', 2400),
 ('Engenharia Mecanica', 'http://ifrs.edu.br/mecanica', 'DIURNO', 4000);
 
-INSERT INTO usuario (nome, email, cpf, data_nascimento, cep, rua, nro) VALUES
-('Ricardo Silva', 'ricardo.silva@email.com', '12345678901', '1995-03-15', '96200100', 'Rua Marechal Floriano', '123'),
-('Ana Oliveira', 'ana.oliveira@email.com', '98765432100', '2000-07-22', '96201050', 'Av. Presidente Vargas', '450'),
-('Beatriz Souza', 'beatriz.souza@email.com', '55544433322', '1998-11-30', '96200000', 'Rua General Neto', '88');
+INSERT INTO usuario (nome, email, cpf, data_nascimento, cep, rua, nro, senha) VALUES
+('Ricardo Silva', 'ricardo.silva@email.com', '12345678901', '1995-03-15', '96200100', 'Rua Marechal Floriano', '123', '12345'),
+('Ana Oliveira', 'ana.oliveira@email.com', '98765432100', '2000-07-22', '96201050', 'Av. Presidente Vargas', '450', '12345'),
+('Beatriz Souza', 'beatriz.souza@email.com', '55544433322', '1998-11-30', '96200000', 'Rua General Neto', '88', '12345');
 
 INSERT INTO aluno (matricula, usuario_id, curso_id, status) VALUES
 ('2023100001', 1, 1, 'CURSANDO'), -- Ricardo em Ciência da Computação
