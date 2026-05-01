@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adicionar usuario</title>
+
+
+<!-- <script>
+    function preenche_radio(){
+        var turno = "{{usuario.turno}}";
+        document.getElementById(turno).checked = true;
+        // alert(turno); 
+    }
+</script> -->
+</head>
+<body>
+
+<h1 class="titulo">Adicionar usuario</h1>
+
+<form class="form-card" action="/usuario/tela_adicionar" method="post">
+
+<label>Data Nascimento</label>
+<input type="date" name="data_nascimento" required>
+
+<label>Nome</label>
+<input type="text" name="nome" required>
+
+<label>cpf</label>
+<input type="text" name="cpf" required>
+
+<label>email</label>
+<input type="text" name="email" required>
+
+<label>cep</label>
+<input type="text" name="cep">
+
+<label>rua</label>
+<input type="text" name="rua">
+
+<label>complemento</label>
+<input type="text" name="complemento">
+
+
+
+<input class="botao" type="submit" value="Adicionar">
+
+</form>
+
+</body>
+</html>

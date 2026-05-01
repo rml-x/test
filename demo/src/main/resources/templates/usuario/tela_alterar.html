@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adicionar usuario</title>
+
+
+<!-- <script>
+    function preenche_radio(){
+        var turno = "{{usuario.turno}}";
+        document.getElementById(turno).checked = true;
+        // alert(turno); 
+    }
+</script> -->
+</head>
+<body>
+
+<h1 class="titulo">Adicionar usuario</h1>
+
+<form class="form-card" action="/usuario/alterar" method="post">
+
+<label>Data Nascimento</label>
+<input type="date" name="data_nascimento" value="{{usuario.dataNascimento}}">
+
+<label>Nome</label>
+<input type="text" name="nome" value="{{usuario.nome}}">
+
+<label>cpf</label>
+<input type="text" name="cpf" value="{{usuario.cpf}}">
+
+<label>email</label>
+<input type="text" name="email" value="{{usuario.email}}">
+
+<label>cep</label>
+<input type="text" name="cep" value="{{usuario.cep}}">
+
+<label>rua</label>
+<input type="text" name="rua" value="{{usuario.rua}}">
+
+<label>complemento</label>
+<input type="text" name="complemento" value="{{usuario.complemento}}">
+
+
+
+<label>senha</label> <input type="checkbox" value="manter" name="manter_senha" checked> deseja manter a senha antiga
+<input type="password" name="senha">
+
+<input type="hidden" name="id" value="{{usuario.id}}">
+
+<input class="botao" type="submit" value="Alterar">
+
+</form>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Adicionar Curso</title>
+</head>
+
+<body>
+
+<h1 class="titulo">Adicionar Curso</h1>
+
+<form class="form-card" action="/curso/adicionar" method="post">
+
+<label>Nome</label>
+<input type="text" name="nome">
+
+<label>Site</label>
+<input type="text" name="site">
+
+<label>Turno</label>
+<div class="radio-group">
+<label><input type="radio" name="turno" value="DIURNO"> Diurno</label>
+<label><input type="radio" name="turno" value="NOTURNO"> Noturno</label>
+<label><input type="radio" name="turno" value="VESPERTINO"> Vespertino</label>
+</div>
+
+<label>Duração</label>
+<input type="number" name="duracao">
+
+<input class="botao" type="submit" value="Adicionar">
+
+</form>
+
+</body>
+</html>

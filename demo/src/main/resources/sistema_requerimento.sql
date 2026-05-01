@@ -53,7 +53,7 @@ INSERT INTO tipo_requerimento (descricao) VALUES
 ('Registro de Nome Social'),
 ('Quebra de PreRequisito'),
 ('Reingresso'),
-('Rematrícula'),
+('Rematricula'),
 ('Revisao de Prova ou Exame'),
 ('Trancamento de Disciplina'),
 ('Trancamento de Matricula'),
@@ -82,9 +82,9 @@ CREATE TABLE anexo (
 -- INSERTS --
 
 INSERT INTO curso (nome, site, turno, duracao) VALUES
-('Ciência da Computação', 'http://ifrs.edu.br/computacao', 'NOTURNO', 3200),
-('Análise e Desenvolvimento de Sistemas', 'http://ifrs.edu.br/ads', 'VESPERTINO', 2400),
-('Engenharia Mecânica', 'http://ifrs.edu.br/mecanica', 'DIURNO', 4000);
+('Ciencia da Computacao', 'http://ifrs.edu.br/computacao', 'NOTURNO', 3200),
+('Analise e Desenvolvimento de Sistemas', 'http://ifrs.edu.br/ads', 'VESPERTINO', 2400),
+('Engenharia Mecanica', 'http://ifrs.edu.br/mecanica', 'DIURNO', 4000);
 
 INSERT INTO usuario (nome, email, cpf, data_nascimento, cep, rua, nro) VALUES
 ('Ricardo Silva', 'ricardo.silva@email.com', '12345678901', '1995-03-15', '96200100', 'Rua Marechal Floriano', '123'),

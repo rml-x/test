@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Lista de Usuarios</title>
+
+
+</head>
+<body>
+<h1 class="titulo">Lista de Usuarios</h1>
+
+<a class="botao-adicionar" href="/usuario/tela_adicionar">+ Adicionar Usuario</a>
+
+<ul class="lista-usuarios">
+  {{#vetorUsuario}}
+    <li>
+        <div>
+            <span class="badge">ID {{id}}</span>
+            <span class="nome-usuario">{{nome}}</span>
+        </div>
+
+        <a class="btn-excluir" href="/usuario/excluir/{{id}}">Excluir</a>
+          <a class="btn-excluir" href="/usuario/tela_alterar/{{id}}">Alterar</a>
+
+    </li>
+
+  {{/vetorUsuario}}
+</ul>
+
+<a href="/usuarios/return"> voltar </a>
+    
+
+</body>
+</html>

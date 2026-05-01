@@ -9,7 +9,7 @@
 
 </head>
 <body>
-{{teste}}
+
 <h1 class="titulo">Lista de Cursos</h1>
 
 <a class="botao-adicionar" href="/curso/tela_adicionar">+ Adicionar Curso</a>
@@ -18,8 +18,18 @@
   {{#vetorCurso}}
     <li>
         <div>
-            <span class="badge">ID {{id}}</span>
+            <span class="badge">{{id}}</span>
+                <br>
             <span class="nome-curso">{{nome}}</span>
+                <br>
+            <span class="site">{{site}}</span>
+                <br>
+            <span class="turno">{{turno}}</span>
+                <br>
+            <span class="ativo">
+                {{^ativo}} Ativo {{/ativo}}
+                {{#ativo}} Inativo {{/ativo}}
+            </span>
         </div>
 
         <a class="btn-excluir" href="/curso/excluir/{{id}}">Excluir</a>
