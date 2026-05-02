@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adicionar Aluno</title>
+
+
+<!-- <script>
+    function preenche_radio(){
+        var turno = "{{usuario.turno}}";
+        document.getElementById(turno).checked = true;
+        // alert(turno); 
+    }
+</script> -->
+</head>
+<body>
+
+<h1 class="titulo">Adicionar Aluno</h1>
+
+<form class="form-card" action="/aluno/tela_adicionar" method="post">
+
+<label>matricula</label>
+<input type="text" name="matricula">
+
+<label>usuario id</label>
+<input type="number" name="usuario.id">
+
+<label>curso id</label>
+<input type="number" name="curso.id">
+
+
+<input class="botao" type="submit" value="Adicionar">
+
+</form>
+
+<a href="/alunos">voltar</a>
+</body>
+</html>

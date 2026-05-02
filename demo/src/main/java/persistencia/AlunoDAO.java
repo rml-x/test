@@ -53,7 +53,7 @@ public class AlunoDAO implements IAluno {
     }
 
     public boolean salvar(Aluno aluno)  throws SQLException {
-        String sql = "INSERT INTO aluno (matricula, usuario_id, curso_id, status) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO aluno (matricula, usuario_id, curso_id) VALUES (?, ?, ?)";
 
         try (Connection conn = new ConexaoPostgreSQL().getConexao();
             PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -66,7 +66,6 @@ public class AlunoDAO implements IAluno {
             // Pegamos o ID de dentro do objeto Curso que está dentro do Aluno
             stmt.setInt(3, aluno.getCurso().getId());
             
-            stmt.setString(4, aluno.getStatus());
 
             stmt.executeUpdate();
             return true;

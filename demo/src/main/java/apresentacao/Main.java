@@ -10,8 +10,10 @@ import io.javalin.rendering.template.JavalinMustache;
 import java.util.HashMap;
 import java.util.Map;
 
+import negocio.Aluno;
 import negocio.Curso;
 import negocio.Usuario;
+import persistencia.AlunoDAO;
 import persistencia.CursoDAO;
 import persistencia.UsuarioDAO;
 
@@ -173,6 +175,7 @@ public class Main {
                 // ctx.render("/templates/curso/tela_adicionar.html");
             });
 
+            
             config.routes.get("/usuario/tela_alterar/{id}", ctx -> {
                 Usuario usuario = new UsuarioDAO().buscar(Integer.parseInt(ctx.pathParam("id")));
                 Map<String, Object> map = new HashMap<>();
@@ -228,6 +231,64 @@ public class Main {
                 }
                 // ctx.render("/templates/curso/tela_adicionar.html");
             });
+
+            //ALUNO=========================================================================================
+
+            config.routes.get("/alunos", ctx -> {
+                // crio um map <chave, valor> para que seja usado la no html
+                Map<String, Object> map = new HashMap<>();
+                System.out.println(map.put("vetorAluno", new AlunoDAO().listarTodos()));
+                               
+                // renderizo a pagina html encaminhando tb o map
+                ctx.render("/templates/aluno/index.html", map);
+            });
+
+            config.routes.get("/aluno/excluir/{matricula}", ctx -> {
+                new AlunoDAO().excluir(ctx.pathParam("matricula"));
+                ctx.redirect("/alunos");
+            });
+
+             config.routes.get("/aluno/tela_adicionar", ctx -> {
+                ctx.render("/templates/aluno/tela_adicionar.html");
+            });
+
+            config.routes.post("/aluno/tela_adicionar", ctx -> {
+
+                String matricula = ctx.formParam("matricula");
+        
+                int cursoId = ctx.formParamAsClass("curso.id", Integer.class)
+                         .getOrThrow(e -> new BadRequestResponse("Curso não selecionado"));
+                         
+                int usuarioId = ctx.formParamAsClass("usuario.id", Integer.class)
+                           .getOrThrow(e -> new BadRequestResponse("Usuário inválido"));
+                                               
+
+                Aluno aluno = new Aluno();
+                aluno.setMatricula(matricula);
+                
+                Curso curso = new Curso();
+                curso.setId(cursoId);
+                aluno.setCurso(curso);
+            
+                Usuario usuario = new Usuario();
+                usuario.setId(usuarioId);
+                aluno.setUsuario(usuario);
+
+                
+                if (new AlunoDAO().salvar(aluno)) {
+                    ctx.redirect("/alunos");
+                } else {
+                    ctx.redirect("/templates/aluno/tela_adicionar.html");
+                }
+                // ctx.render("/templates/curso/tela_adicionar.html");
+            });
+
+
+
+          
+
+            
+
              
 
 

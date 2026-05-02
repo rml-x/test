@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Lista de Alunos</title>
+
+
+</head>
+<body>
+<h1 class="titulo">Lista de Alunos</h1>
+
+<a class="botao-adicionar" href="/aluno/tela_adicionar">+ Adicionar Aluno</a>
+
+<ul class="lista-alunos">
+  {{#vetorAluno}}
+    <li>
+        <div>
+            <span class="badge">ID {{matricula}}</span>
+            <span class="nome-aluno">{{usuario.nome}}</span>
+            <span class="curso">{{curso.nome}}</span>
+            <span class="status">{{status}}</span>
+        </div>
+
+        <a class="btn-excluir" href="/aluno/excluir/{{matricula}}">Excluir</a>
+          <a class="btn-alterar" href="/aluno/tela_alterar/{{matricula}}">Alterar</a>
+
+    </li>
+
+  {{/vetorAluno}}
+</ul>
+
+<a href="/"> voltar </a>
+    
+
+</body>
+</html>
