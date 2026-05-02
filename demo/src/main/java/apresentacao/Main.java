@@ -184,7 +184,7 @@ public class Main {
                 ctx.render("/templates/usuario/tela_alterar.html", map);
             });
 
-             config.routes.post("/usuario/tela_alterar", ctx -> {
+            config.routes.post("/usuario/tela_alterar", ctx -> {
 
                 int id = ctx.formParamAsClass("id", Integer.class).getOrThrow(e -> new BadRequestResponse("ID inválido ou ausente"));
 
@@ -282,6 +282,41 @@ public class Main {
                 }
                 // ctx.render("/templates/curso/tela_adicionar.html");
             });
+
+            
+            config.routes.get("/aluno/tela_alterar/{matricula}", ctx -> {
+                String mat = ctx.pathParam("matricula");
+                Aluno aluno = new AlunoDAO().buscar(mat); 
+
+                // DEBUG: Se isso imprimir null ou vazio, o formulário vai quebrar
+                System.out.println("Aluno buscado: " + aluno.getMatricula());
+
+                Map<String, Object> map = new HashMap<>();
+                map.put("aluno", aluno); 
+                ctx.render("/templates/aluno/tela_alterar.html", map);
+            });
+
+            config.routes.post("/aluno/tela_alterar/{matricula}", ctx -> {
+
+                String matricula = ctx.pathParam("matricula");
+                String status = ctx.formParam("status");
+
+                Aluno aluno = new Aluno();
+                aluno.setMatricula(matricula); 
+                aluno.setStatus(status);
+                Map<String, Object> map = new HashMap<>();
+
+                if (new AlunoDAO().atualizar(aluno)) {
+                    ctx.redirect("/alunos");
+                } else {
+                    // defino um apelido para a colecao de objetos de curso vindos do banco
+                    map.put("aluno", aluno);
+                    ctx.render("/templates/aluno/tela_alterar.html", map);
+                }
+                // ctx.render("/templates/curso/tela_adicionar.html");
+            });
+            
+
 
 
 

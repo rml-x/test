@@ -113,16 +113,14 @@ public class AlunoDAO implements IAluno {
     }
 
     public boolean atualizar(Aluno aluno) throws SQLException {
-        String sql = "UPDATE aluno SET status = ?, curso_id = ? WHERE matricula = ?";
+        String sql = "UPDATE aluno SET status = ? WHERE matricula = ?";
 
         try (Connection conn = new ConexaoPostgreSQL().getConexao();
             PreparedStatement instrucaoSQL = conn.prepareStatement(sql)) {
             
             instrucaoSQL.setString(1, aluno.getStatus());
 
-            instrucaoSQL.setInt(2, aluno.getCurso().getId());
-
-            instrucaoSQL.setString(3, aluno.getMatricula());
+            instrucaoSQL.setString(2, aluno.getMatricula());
 
             int num = instrucaoSQL.executeUpdate();
             
