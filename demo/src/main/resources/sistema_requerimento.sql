@@ -24,7 +24,7 @@ CREATE TABLE usuario (
     complemento text,
     nro character varying(10),
     ativo BOOLEAN DEFAULT TRUE,
-    senha TEXT
+    senha TEXT not null
 );
 
 CREATE TABLE aluno (

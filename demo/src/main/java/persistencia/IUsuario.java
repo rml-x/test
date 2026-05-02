@@ -11,7 +11,7 @@ public interface IUsuario {
 
     List<Usuario> listarTodos() throws SQLException;
 
-    boolean atualizar(Usuario usuario) throws SQLException;
+    boolean atualizar(Usuario usuario, boolean manter_senha) throws SQLException;
 
     void excluir(int id) throws SQLException;
 

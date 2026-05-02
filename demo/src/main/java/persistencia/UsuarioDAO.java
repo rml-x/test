@@ -16,7 +16,7 @@ public class UsuarioDAO implements IUsuario {
     @Override
 
     public boolean salvar(Usuario usuario) throws SQLException {
-        String sql = "INSERT INTO usuario (nome, email, cpf, data_nascimento, cep, rua, complemento, nro) VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
+        String sql = "INSERT INTO usuario (nome, email, cpf, data_nascimento, cep, rua, complemento, nro, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
 
         try (Connection conn = new ConexaoPostgreSQL().getConexao();
             PreparedStatement instrucaoSQL = conn.prepareStatement(sql)) {
@@ -35,6 +35,7 @@ public class UsuarioDAO implements IUsuario {
             instrucaoSQL.setString(6, usuario.getRua());
             instrucaoSQL.setString(7, usuario.getComplemento());
             instrucaoSQL.setString(8, usuario.getNro());
+            instrucaoSQL.setString(9, usuario.getSenha());
 
             try (ResultSet rs = instrucaoSQL.executeQuery()) {
                 if (rs.next()) {
@@ -90,29 +91,40 @@ public class UsuarioDAO implements IUsuario {
         return vetorUsuario;
     } 
     
-    public boolean atualizar(Usuario usuario) throws SQLException {
+    public boolean atualizar(Usuario usuario, boolean manter_senha) throws SQLException {
+
+        String sql;
         
-        String sql = "UPDATE usuario SET nome = ?, email = ?, cpf = ?, data_nascimento = ?, cep = ?, rua = ?, complemento = ?, nro = ?, senha = ? where id = ?";
+        if (manter_senha == false){
+            sql = "UPDATE usuario SET nome = ?, email = ?, cpf = ?, data_nascimento = ?, cep = ?, rua = ?, complemento = ?, nro = ?, senha=md5(?) where id = ?";
+        } else {
+            sql = "UPDATE usuario SET nome = ?, email = ?, cpf = ?, data_nascimento = ?, cep = ?, rua = ?, complemento = ?, nro = ? where id = ?";
+        }
 
-        try (Connection conn = new ConexaoPostgreSQL().getConexao();
-            PreparedStatement instrucaoSQL = conn.prepareStatement(sql)) {
+        Connection connection = new ConexaoPostgreSQL().getConexao();
+        PreparedStatement instrucaoSQL = connection.prepareStatement(sql);
+        instrucaoSQL.setString(1, usuario.getNome());
+        instrucaoSQL.setString(2, usuario.getEmail());
+        instrucaoSQL.setString(3, usuario.getCpf());        
+        instrucaoSQL.setDate(4, (usuario.getDataNascimento() == null ) ? null: Date.valueOf(usuario.getDataNascimento()));
+        instrucaoSQL.setString(5, usuario.getCep());
+        instrucaoSQL.setString(6, usuario.getRua());
+        instrucaoSQL.setString(7, usuario.getComplemento());
+        instrucaoSQL.setString(8, usuario.getNro());
 
-            instrucaoSQL.setString(1, usuario.getNome());
-            instrucaoSQL.setString(2, usuario.getEmail());
-            instrucaoSQL.setString(3, usuario.getCpf());        
-            instrucaoSQL.setDate(4, (usuario.getDataNascimento() == null ) ? null: Date.valueOf(usuario.getDataNascimento()));
-            instrucaoSQL.setString(5, usuario.getCep());
-            instrucaoSQL.setString(6, usuario.getRua());
-            instrucaoSQL.setString(7, usuario.getComplemento());
-            instrucaoSQL.setString(8, usuario.getNro());
+        if (manter_senha == false) {
             instrucaoSQL.setString(9, usuario.getSenha());
             instrucaoSQL.setInt(10, usuario.getId());
-            
-            int num = instrucaoSQL.executeUpdate();
-            return num != 0; 
-        }    
-
+        } else {
+            instrucaoSQL.setInt(9, usuario.getId());
+        }
+        
+        int num = instrucaoSQL.executeUpdate();
+        return num != 0;
     }
+
+
+    
 
     public Usuario buscar(int id) throws SQLException {
         

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 import io.javalin.Javalin;
+import io.javalin.http.BadRequestResponse;
 import io.javalin.rendering.template.JavalinMustache;
 
 import java.util.HashMap;
@@ -66,6 +67,13 @@ public class Main {
                 // ctx.render("/templates/curso/tela_adicionar.html");
             });
 
+            //VOLTAR=======================================================================
+            config.routes.get("/curso/return", ctx -> {
+               
+                ctx.redirect("/");
+            });
+
+
 
             config.routes.get("/curso/tela_alterar/{id}", ctx -> {
                 Curso curso = new CursoDAO().buscar(Integer.parseInt(ctx.pathParam("id")));
@@ -73,6 +81,12 @@ public class Main {
                 // defino um apelido para a colecao de objetos de curso vindos do banco
                 map.put("curso", curso);
                 ctx.render("/templates/curso/tela_alterar.html", map);
+            });
+
+            //VOLTAR=======================================================================
+            config.routes.get("/curso/tela_alterar/return", ctx -> {
+               
+                ctx.redirect("/");
             });
 
             config.routes.post("/curso/tela_alterar", ctx -> {
@@ -128,13 +142,13 @@ public class Main {
                 ctx.render("/templates/usuario/tela_adicionar.html");
             });
 
-             config.routes.post("/usuario/tela_adicionar", ctx -> {
+            config.routes.post("/usuario/tela_adicionar", ctx -> {
                 String nome = ctx.formParam("nome");
                 String email = ctx.formParam("email");
-                String cpf = ctx.formParam("cpf");
-                String dataNascimento = ctx.formParam("data_nascimento");
                 String senha = ctx.formParam("senha");
+                String cpf = ctx.formParam("cpf");
                 String cep = ctx.formParam("cep");
+                String dataNascimento = ctx.formParam("data_nascimento");
                 String rua = ctx.formParam("rua");
                 String complemento = ctx.formParam("complemento");
                 String nro = ctx.formParam("nro");                               
@@ -142,10 +156,11 @@ public class Main {
                 Usuario usuario = new Usuario();
                 usuario.setNome(nome);
                 usuario.setEmail(email);
-                usuario.setDataNascimento(LocalDate.parse(dataNascimento));
                 usuario.setSenha(senha);
-                usuario.setCpf(cpf);
+                System.out.println(dataNascimento);
+                usuario.setDataNascimento(LocalDate.parse(dataNascimento));
                 usuario.setCep(cep);
+                usuario.setCpf(cpf);
                 usuario.setRua(rua);
                 usuario.setNro(nro);
                 usuario.setComplemento(complemento);
@@ -158,39 +173,62 @@ public class Main {
                 // ctx.render("/templates/curso/tela_adicionar.html");
             });
 
-          
             config.routes.get("/usuario/tela_alterar/{id}", ctx -> {
-                Curso curso = new CursoDAO().buscar(Integer.parseInt(ctx.pathParam("id")));
+                Usuario usuario = new UsuarioDAO().buscar(Integer.parseInt(ctx.pathParam("id")));
                 Map<String, Object> map = new HashMap<>();
-                // defino um apelido para a colecao de objetos de curso vindos do banco
-                map.put("curso", curso);
+
+                map.put("usuario", usuario);
                 ctx.render("/templates/usuario/tela_alterar.html", map);
             });
 
-            config.routes.post("/tela_alterar", ctx -> {
-                int id = Integer.parseInt(ctx.formParam("id"));
+             config.routes.post("/usuario/tela_alterar", ctx -> {
+
+                int id = ctx.formParamAsClass("id", Integer.class).getOrThrow(e -> new BadRequestResponse("ID inválido ou ausente"));
+
                 String nome = ctx.formParam("nome");
-                String site = ctx.formParam("site");
-                String turno = ctx.formParam("turno");
-                int duracao = Integer.parseInt(ctx.formParam("duracao"));
-                Curso curso = new Curso();
-                curso.setId(id);
-                curso.setNome(nome);
-                curso.setSite(site);
-                curso.setTurno(turno);
-                curso.setDuracao(duracao);
+                String cpf = ctx.formParam("cpf");
+                String email = ctx.formParam("email");
+                String cep = ctx.formParam("cep");
+                String rua = ctx.formParam("rua");
+                String complemento = ctx.formParam("complemento");  
+                String nro = ctx.formParam("nro");
+                String manter_senha = ctx.formParam("manter_senha");
+                // System.out.println(manter_senha);
+                String senha = ctx.formParam("senha");
+
+                String dataStr = ctx.formParam("data_nascimento");
+                LocalDate date = (dataStr != null && !dataStr.isEmpty()) ? LocalDate.parse(dataStr) : null;
+
+                Usuario usuario = new Usuario();
+                boolean manter_senha_boolean = true;
+                if (manter_senha != null && manter_senha.equals("manter")) {
+                    usuario = new UsuarioDAO().buscar(id);
+                }
+                else if (manter_senha == null){
+                    manter_senha_boolean = false;
+                    usuario.setSenha(senha);
+                }
+                usuario.setId(id);
+                usuario.setNome(nome);
+                usuario.setCpf(cpf);
+                usuario.setEmail(email);
+                usuario.setCep(cep);
+                usuario.setComplemento(complemento);
+                usuario.setRua(rua);
+                usuario.setNro(nro);
+                usuario.setDataNascimento(date);
 
                 Map<String, Object> map = new HashMap<>();
-
-                if (new CursoDAO().atualizar(curso)) {
-                    ctx.redirect("/");
+                if (new UsuarioDAO().atualizar(usuario, manter_senha_boolean)) {
+                    ctx.redirect("/usuarios");
                 } else {
                     // defino um apelido para a colecao de objetos de curso vindos do banco
-                    map.put("curso", curso);
-                    ctx.render("/templates/curso/tela_alterar.html", map);
+                    map.put("usuario", usuario);
+                    ctx.render("/templates/usuario/tela_alterar.html", map);
                 }
                 // ctx.render("/templates/curso/tela_adicionar.html");
             });
+             
 
 
             
