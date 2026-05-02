@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Lista de Requerimentos</title>
+
+
+</head>
+<body>
+<h1 class="titulo">Lista de Requerimentos</h1>
+
+<a class="botao-adicionar" href="/requerimento/tela_adicionar">+ Adicionar Requerimento</a>
+
+<ul class="lista-requerimentos">
+  {{#lista}}
+    <li>
+        <div>
+            <span class="matricula">{{aluno.matricula}}</span>
+            <span class="nome-aluno">{{usuario.nome}}</span>
+            <span class="curso">{{curso.nome}}</span>
+            <span class="status">{{status}}</span>
+            <span class="id">ID {{id}}</span>
+            <span class="observacao">{{observacao}}</span>
+            <span class="data_hora_abertura">{{data_hora_abertura}}</span>
+            <span class="data_hora_encerramento">{{data_hora_encerramento}}</span>
+            <span class="tipo_requerimento">{{tipo_requerimento.requerimento}}</span>
+
+        </div>
+
+        <a class="btn-excluir" href="/requerimento/excluir">Excluir</a>
+        <a class="btn-alterar" href="/requerimento/tela_alterar">Alterar</a>
+        <a class="btn-requerimentos" href="/templates/requerimento/index.html">Requerimentos do Aluno</a>
+
+    </li>
+
+  {{/lista}}
+</ul>
+
+<a href="/"> voltar </a>
+    
+
+</body>
+</html>

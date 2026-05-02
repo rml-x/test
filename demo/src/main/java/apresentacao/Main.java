@@ -15,6 +15,7 @@ import negocio.Curso;
 import negocio.Usuario;
 import persistencia.AlunoDAO;
 import persistencia.CursoDAO;
+import persistencia.RequerimentoDAO;
 import persistencia.UsuarioDAO;
 
 public class Main {
@@ -30,7 +31,7 @@ public class Main {
 
             // a unica rota que tenha eh a index
             
-            //CURSOS-------------------------------------------------------------------------------
+            //CURSOS==================================================================================
             config.routes.get("/", ctx -> {
                 // crio um map <chave, valor> para que seja usado la no html
                 Map<String, Object> map = new HashMap<>();
@@ -315,7 +316,17 @@ public class Main {
                 }
                 // ctx.render("/templates/curso/tela_adicionar.html");
             });
+
+            //REQUERIMENTO=============================================================
             
+            config.routes.get("/requerimento", ctx -> {
+                // crio um map <chave, valor> para que seja usado la no html
+                Map<String, Object> map = new HashMap<>();
+                System.out.println(map.put("lista", new RequerimentoDAO().listarTodos()));
+                               
+                // renderizo a pagina html encaminhando tb o map
+                ctx.render("/templates/requerimento/index.html", map);
+            });
 
 
 

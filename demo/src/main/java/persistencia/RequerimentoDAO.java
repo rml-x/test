@@ -113,7 +113,7 @@ public class RequerimentoDAO implements IRequerimento {
 
     public boolean atualizar(Requerimento requerimento) throws SQLException{
 
-        String sql = "UPDATE requerimento SET data_hora_encerramento = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE requerimento SET data_hora_encerramento = current_timestamp, status = ? WHERE id = ?";
 
         try (Connection conn = new ConexaoPostgreSQL().getConexao();
             PreparedStatement instrucaoSQL = conn.prepareStatement(sql)) {
