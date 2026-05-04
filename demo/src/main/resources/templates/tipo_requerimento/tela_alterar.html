@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alterar Tipo de Requerimento</title>
+
+
+<!-- <script>
+    function preenche_radio(){
+        var turno = "{{usuario.turno}}";
+        document.getElementById(turno).checked = true;
+        // alert(turno); 
+    }
+</script> -->
+</head>
+<body>
+
+<h1 class="titulo">Alterar Tipo de Requerimento</h1>
+
+<!-- <p>Debug - Objeto Tipo: {{tipo}}</p>
+<p>Debug - ID do Tipo: {{tipo.id}}</p> -->
+
+<form action="/tipo_requerimento/tela_alterar" method="post">
+
+   {{#tipo}}
+   <input type="hidden" name="id" value="{{id}}"> {{/tipo}}
+
+    <label>Descrição:</label>
+    <input type="text" name="descricao" value="{{tipo.descricao}}">
+
+    <button type="submit">Salvar</button>
+</form>
+
+<a href="/tipo_requerimento"> voltar </a>
+
+
+</body>
+</html>

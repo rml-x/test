@@ -12,6 +12,7 @@ import java.util.Map;
 
 import negocio.Aluno;
 import negocio.Curso;
+import negocio.TipoRequerimento;
 import negocio.Usuario;
 import persistencia.AlunoDAO;
 import persistencia.CursoDAO;
@@ -328,6 +329,66 @@ public class Main {
                 // renderizo a pagina html encaminhando tb o map
                 ctx.render("/templates/tipo_requerimento/index.html", map);
             });
+
+            config.routes.get("/tipo_requerimento/excluir/{id}", ctx -> {
+                new TipoRequerimentoDAO().excluir(Integer.parseInt(ctx.pathParam("id")));
+                ctx.redirect("/tipo_requerimento");
+            });
+
+            config.routes.get("/tipo_requerimento/tela_adicionar", ctx -> {
+                ctx.render("templates/tipo_requerimento/tela_adicionar.html");
+            });
+
+            config.routes.post("/tipo_requerimento/tela_adicionar", ctx -> {
+
+                String descricao = ctx.formParam("descricao");
+
+                if (descricao == null || descricao.trim().isEmpty()) {
+                    ctx.status(400).result("A descrição é obrigatória");
+                    return;
+                }
+              
+                TipoRequerimento tipo = new TipoRequerimento();
+                tipo.setDescricao(descricao);
+            
+            
+                if (new TipoRequerimentoDAO().salvar(tipo)) {
+                    ctx.redirect("/tipo_requerimento"); // Volta para a lista
+                } else {
+                    ctx.result("Erro ao salvar no banco de dados");
+                }
+            });
+
+            config.routes.get("/tipo_requerimento/tela_alterar/{id}", ctx -> {
+
+                int idBusca = Integer.parseInt(ctx.pathParam("id"));
+                TipoRequerimento tr = new TipoRequerimentoDAO().buscar(idBusca);
+
+                Map<String, Object> map = new HashMap<>();
+                
+                map.put("tipo", tr); 
+                
+                System.out.println("ID carregado no Java: " + tr.getId());
+
+                ctx.render("/templates/tipo_requerimento/tela_alterar.html", map);
+            });
+
+            config.routes.post("/tipo_requerimento/tela_alterar", ctx -> {
+
+                int id = Integer.parseInt(ctx.formParam("id")); 
+                String descricao = ctx.formParam("descricao");
+
+                TipoRequerimento tipo = new TipoRequerimento();
+                tipo.setId(id);
+                tipo.setDescricao(descricao);
+
+                if (new TipoRequerimentoDAO().atualizar(tipo)) {
+                    ctx.redirect("/tipo_requerimento");
+                } else {
+                    ctx.render("/templates/tipo_requerimento/tela_alterar.html", Map.of("tipo", tipo));
+                }
+            });
+
 
 
             //REQUERIMENTO=============================================================
