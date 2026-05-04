@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Tipos de Requerimento</title>
+
+
+
+</head>
+<body>
+
+<h1 class="titulo">Tipos de Requerimento</h1>
+
+<a class="botao-adicionar" href="/tipo_requerimento/index.html">+ Adicionar Tipo</a>
+
+<ul class="lista-requerimentos">
+  {{#vetorRequerimento}}
+    <li>
+        <div>
+            <span class="badge">{{id}}</span>
+                <br>
+            <span class="descricao">{{descricao}}</span>
+        </div>
+
+        <a class="btn-excluir" href="/tipo_requerimento/excluir/{{id}}">Excluir</a>
+          <a class="btn-alterar" href="/tipo_requerimento/tela_alterar/{{id}}">Alterar</a>
+
+    </li>
+  {{/vetorRequerimento}}
+</ul>
+
+  <a href="/">voltar</a>
+
+
+</body>
+</html>

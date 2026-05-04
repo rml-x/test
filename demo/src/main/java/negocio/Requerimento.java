@@ -1,6 +1,7 @@
 package negocio;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class Requerimento {
     private int id;
@@ -36,12 +37,24 @@ public class Requerimento {
         this.data_hora_abertura = data_hora_abertura;
     }
 
+    public String getDataAberturaStr() {
+        if (this.data_hora_abertura == null) return "";
+        return new SimpleDateFormat("dd/MM/YYYY HH:mm").format(this.data_hora_abertura);
+    }
+
     public Timestamp getDataHoraEncerramento(){
         return data_hora_encerramento;
     }
     public void setDataHoraEncerramento(Timestamp data_hora_encerramento){
         this.data_hora_encerramento = data_hora_encerramento;
     }
+
+    
+    public String getDataEncerramentoStr() {
+        if (this.data_hora_encerramento == null) return "";
+        return new SimpleDateFormat("dd/MM/YYYY HH:mm").format(this.data_hora_encerramento);
+    }
+
 
     public String getObservacao(){
         return observacao;

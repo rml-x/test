@@ -16,6 +16,7 @@ import negocio.Usuario;
 import persistencia.AlunoDAO;
 import persistencia.CursoDAO;
 import persistencia.RequerimentoDAO;
+import persistencia.TipoRequerimentoDAO;
 import persistencia.UsuarioDAO;
 
 public class Main {
@@ -317,6 +318,18 @@ public class Main {
                 // ctx.render("/templates/curso/tela_adicionar.html");
             });
 
+            //TIPO REQUERIMENTO========================================================
+
+            config.routes.get("/tipo_requerimento", ctx -> {
+                // crio um map <chave, valor> para que seja usado la no html
+                Map<String, Object> map = new HashMap<>();
+                System.out.println(map.put("vetorRequerimento", new TipoRequerimentoDAO().listarTodos()));
+                               
+                // renderizo a pagina html encaminhando tb o map
+                ctx.render("/templates/tipo_requerimento/index.html", map);
+            });
+
+
             //REQUERIMENTO=============================================================
             
             config.routes.get("/requerimento", ctx -> {
@@ -326,6 +339,15 @@ public class Main {
                                
                 // renderizo a pagina html encaminhando tb o map
                 ctx.render("/templates/requerimento/index.html", map);
+            });
+
+            config.routes.get("/requerimento/excluir/{id}", ctx -> {
+                new RequerimentoDAO().excluir(Integer.parseInt(ctx.pathParam("id")));
+                ctx.redirect("/requerimento");
+            });
+
+            config.routes.get("/requerimento/tela_adicionar", ctx -> {
+                ctx.render("templates/requerimento/tela_adicionar.html");
             });
 
 
