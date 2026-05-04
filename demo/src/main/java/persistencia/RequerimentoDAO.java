@@ -66,7 +66,7 @@ public class RequerimentoDAO implements IRequerimento {
     //read
     public List<Requerimento> listarRequerimentoPorAluno(String matricula) throws SQLException {
         
-        String sql = "SELECT r.*, u.nome AS nome_aluno, c.nome AS nome_curso, tr.descricao AS tipo_descricao FROM requerimento r INNER JOIN aluno a ON r.matricula = a.matricula INNER JOIN usuario u ON a.usuario_id = u.id INNER JOIN curso c ON a.curso_id = c.id INNER JOIN tipo_requerimento tr ON r.tipo_requerimento_id = tr.id WHERE r.ativo IS TRUE AND r.matricula = ? ORDER BY r.data_hora_abertura DESC;";
+        String sql = "SELECT r.*, r.tipo_requerimento_id AS tipo_id, u.nome AS nome_aluno, c.nome AS nome_curso, tr.descricao AS tipo_descricao FROM requerimento r INNER JOIN aluno a ON r.matricula = a.matricula INNER JOIN usuario u ON a.usuario_id = u.id INNER JOIN curso c ON a.curso_id = c.id INNER JOIN tipo_requerimento tr ON r.tipo_requerimento_id = tr.id WHERE r.ativo IS TRUE AND r.matricula = ? ORDER BY r.data_hora_abertura DESC;";
 
         List<Requerimento> reqPerAluno = new ArrayList<Requerimento>();
 

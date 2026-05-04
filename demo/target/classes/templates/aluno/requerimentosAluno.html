@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Requerimentos - {{nome_aluno}}</title>
+    
+    <style>
+        .btn-acao { padding: 4px 8px; text-decoration: none; border-radius: 4px; }
+        .view { background: #e0f7fa; color: #006064; }
+        .edit { background: #fff3e0; color: #e65100; }
+    </style>
+</head>
+<body>
+
+    <h2>Listagem de Requerimentos</h2>
+    <h3>Aluno: {{nome_aluno}} | Matrícula: {{matricula}}</h3>
+
+    <table border="1" style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tipo</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#lista}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{tipo.descricao}}</td>
+                <td><strong>{{status}}</strong></td>
+                <td>
+                    <a href="/requerimento/anexo/visualizar/{{id}}" target="_blank" class="btn-acao view">👁️ Ver Anexo</a>
+                    
+                    <a href="/requerimento/alterar/{{id}}" class="btn-acao edit">✏️ Editar</a>
+                </td>
+            </tr>
+            {{/lista}}
+            
+            {{^lista}}
+            <tr>
+                <td colspan="4">Nenhum requerimento encontrado para este aluno.</td>
+            </tr>
+            {{/lista}}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/alunos">Voltar para Alunos</a>
+
+</body>
+</html>

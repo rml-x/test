@@ -1,5 +1,6 @@
 package apresentacao;
 
+import java.io.ObjectInputFilter.Config;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
@@ -9,6 +10,7 @@ import io.javalin.http.UploadedFile;
 import io.javalin.rendering.template.JavalinMustache;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import negocio.Aluno;
@@ -473,7 +475,7 @@ public class Main {
                 req.setId(id);
                 req.setStatus(novoStatus);
                 req.setObservacao(ctx.formParam("observacao")); 
-                
+
                 // 1. Atualiza o Requerimento (Status e Data Encerramento)
                 if (new RequerimentoDAO().atualizar(req)) {
                     
@@ -488,7 +490,6 @@ public class Main {
                         reqPai.setId(id);
                         anexo.setRequerimento(reqPai);
 
-                        // Chama o método que deleta o antigo e insere o novo
                         new AnexoDAO().atualizar(anexo);
                     }
 
@@ -498,7 +499,21 @@ public class Main {
                 }
             });
 
-          
+            //REQUERIMENTO POR ALUNO============================================================
+            config.routes.get("/requerimento/aluno/{matricula}", ctx -> {
+                String matricula = ctx.pathParam("matricula");
+                List<Requerimento> lista = new RequerimentoDAO().listarRequerimentoPorAluno(matricula);
+
+                Map<String, Object> map = new HashMap<>();
+                map.put("lista", lista);
+                map.put("matricula", matricula);
+
+                // O Mustache procura a partir de 'src/main/resources/templates/'
+                // Se o arquivo está na subpasta 'aluno', o caminho deve ser:
+                ctx.render("templates/aluno/requerimentosAluno.html", map); 
+            });
+
+                    
 
             
 
