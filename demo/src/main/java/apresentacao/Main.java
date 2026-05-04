@@ -5,16 +5,20 @@ import java.time.LocalDate;
 
 import io.javalin.Javalin;
 import io.javalin.http.BadRequestResponse;
+import io.javalin.http.UploadedFile;
 import io.javalin.rendering.template.JavalinMustache;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import negocio.Aluno;
+import negocio.Anexo;
 import negocio.Curso;
+import negocio.Requerimento;
 import negocio.TipoRequerimento;
 import negocio.Usuario;
 import persistencia.AlunoDAO;
+import persistencia.AnexoDAO;
 import persistencia.CursoDAO;
 import persistencia.RequerimentoDAO;
 import persistencia.TipoRequerimentoDAO;
@@ -408,11 +412,44 @@ public class Main {
             });
 
             config.routes.get("/requerimento/tela_adicionar", ctx -> {
-                ctx.render("templates/requerimento/tela_adicionar.html");
+
+                Map<String, Object> map = new HashMap<>();
+                
+                map.put("tipos", new TipoRequerimentoDAO().listarTodos());
+                
+                ctx.render("/templates/requerimento/tela_adicionar.html", map);
+                
             });
 
+            config.routes.post("/requerimento/adicionar", ctx -> {
+                String matricula = ctx.formParam("matricula");
+                int tipoId = Integer.parseInt(ctx.formParam("tipo_id"));
+                String observacao = ctx.formParam("observacao");
 
+                int idGerado = new RequerimentoDAO().abrirRequerimento(matricula, tipoId, observacao);
 
+                if (idGerado > 0) {
+                    UploadedFile file = ctx.uploadedFile("anexo");
+
+                    // Se tiver arquivo, salva o anexo
+                    if (file != null && file.size() > 0) {
+                        Anexo anexo = new Anexo();
+                        anexo.setDescricao(file.filename());
+                        anexo.setArquivo(file.content().readAllBytes());
+                        
+                        Requerimento reqPai = new Requerimento();
+                        reqPai.setId(idGerado);
+                        anexo.setRequerimento(reqPai);
+
+                        new AnexoDAO().salvar(anexo);
+                    }
+
+                    ctx.redirect("/requerimento");
+                
+                } else {
+                    ctx.result("Erro ao abrir requerimento no banco de dados.");
+                }
+            });
 
           
 

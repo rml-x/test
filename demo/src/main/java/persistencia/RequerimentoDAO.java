@@ -111,24 +111,21 @@ public class RequerimentoDAO implements IRequerimento {
     }
     
 
-    public boolean atualizar(Requerimento requerimento) throws SQLException{
-
-        String sql = "UPDATE requerimento SET data_hora_encerramento = current_timestamp, status = ? WHERE id = ?";
+    public boolean atualizar(Requerimento requerimento) throws SQLException {
+        // Note: Removi a data do SET porque o current_timestamp já faz o trabalho sozinho
+        String sql = "UPDATE requerimento SET status = ?, data_hora_encerramento = current_timestamp WHERE id = ?";
 
         try (Connection conn = new ConexaoPostgreSQL().getConexao();
             PreparedStatement instrucaoSQL = conn.prepareStatement(sql)) {
         
-            instrucaoSQL.setTimestamp(1, requerimento.getDataHoraEncerramento());
-
-            instrucaoSQL.setString(2, requerimento.getStatus());
-
-            instrucaoSQL.setInt(3, requerimento.getId());
+            // 1º ? é o Status
+            instrucaoSQL.setString(1, requerimento.getStatus());
+            // 2º ? é o ID
+            instrucaoSQL.setInt(2, requerimento.getId());
 
             int num = instrucaoSQL.executeUpdate();
-            
             return num != 0; 
         } 
-
     }
 
     public void excluir(int id) throws SQLException{
@@ -145,7 +142,7 @@ public class RequerimentoDAO implements IRequerimento {
     }
 
     //create
-    public boolean abrirRequerimento(String matricula, int tipoId, String observacao) throws SQLException{
+    public int abrirRequerimento(String matricula, int tipoId, String observacao) throws SQLException{
 
         String sql = "INSERT INTO requerimento (matricula, tipo_requerimento_id, observacao) VALUES (?, ?, ?)";
 
@@ -156,19 +153,19 @@ public class RequerimentoDAO implements IRequerimento {
             stmt.setInt(2, tipoId); 
             stmt.setString(3, observacao);
 
+            
             int rowsAffected = stmt.executeUpdate(); 
 
             if (rowsAffected > 0) {
-                try (ResultSet rs = stmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        int idGerado = rs.getInt(1);
-                        System.out.println("Requerimento aberto com ID: " + idGerado);
-                    }
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    // Em vez de apenas imprimir, nós retornamos o ID!
+                    return rs.getInt(1); 
                 }
-                return true;
-                }
+            }
+         }
         }
-        return false;
+     return 0; // Se chegar aqui, algo deu errado
 
     }
 

@@ -15,6 +15,6 @@ public interface IRequerimento {
     void excluir(int id) throws SQLException;
 
     //create
-    boolean abrirRequerimento(String matricula, int tipoId, String observacao) throws SQLException;
+    int abrirRequerimento(String matricula, int tipoId, String observacao) throws SQLException;
 
 }
