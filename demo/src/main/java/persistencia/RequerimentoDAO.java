@@ -112,16 +112,14 @@ public class RequerimentoDAO implements IRequerimento {
     
 
     public boolean atualizar(Requerimento requerimento) throws SQLException {
-        // Note: Removi a data do SET porque o current_timestamp já faz o trabalho sozinho
-        String sql = "UPDATE requerimento SET status = ?, data_hora_encerramento = current_timestamp WHERE id = ?";
+        String sql = "UPDATE requerimento SET status = ?,observacao = ?, data_hora_encerramento = current_timestamp WHERE id = ?";
 
         try (Connection conn = new ConexaoPostgreSQL().getConexao();
             PreparedStatement instrucaoSQL = conn.prepareStatement(sql)) {
         
-            // 1º ? é o Status
             instrucaoSQL.setString(1, requerimento.getStatus());
-            // 2º ? é o ID
-            instrucaoSQL.setInt(2, requerimento.getId());
+            instrucaoSQL.setString(2, requerimento.getObservacao());
+            instrucaoSQL.setInt(3, requerimento.getId());
 
             int num = instrucaoSQL.executeUpdate();
             return num != 0; 
@@ -167,6 +165,59 @@ public class RequerimentoDAO implements IRequerimento {
         }
      return 0; // Se chegar aqui, algo deu errado
 
+    }
+
+    public Requerimento buscarPorId(int id) throws SQLException {
+        // SQL completo com JOINs para trazer todos os dados relacionados
+        String sql = "SELECT r.*, u.nome AS nome_aluno, c.nome AS nome_curso, tr.descricao AS tipo_descricao " +
+                    "FROM requerimento r " +
+                    "INNER JOIN aluno a ON r.matricula = a.matricula " +
+                    "INNER JOIN usuario u ON a.usuario_id = u.id " +
+                    "INNER JOIN curso c ON a.curso_id = c.id " +
+                    "INNER JOIN tipo_requerimento tr ON r.tipo_requerimento_id = tr.id " +
+                    "WHERE r.id = ?";
+
+        try (Connection conn = new ConexaoPostgreSQL().getConexao();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Requerimento req = new Requerimento();
+                    
+                    // Dados básicos do Requerimento
+                    req.setId(rs.getInt("id"));
+                    req.setObservacao(rs.getString("observacao"));
+                    req.setStatus(rs.getString("status"));
+                    req.setDataHoraAbertura(rs.getTimestamp("data_hora_abertura"));
+                    req.setDataHoraEncerramento(rs.getTimestamp("data_hora_encerramento"));
+
+                    // Montando o objeto Aluno completo (com Usuario e Curso)
+                    Aluno aluno = new Aluno();
+                    aluno.setMatricula(rs.getString("matricula"));
+                    
+                    Usuario usu = new Usuario();
+                    usu.setNome(rs.getString("nome_aluno"));
+                    aluno.setUsuario(usu);
+
+                    Curso curso = new Curso();
+                    curso.setNome(rs.getString("nome_curso"));
+                    aluno.setCurso(curso);
+                    
+                    req.setAluno(aluno);
+
+                    // Montando o objeto TipoRequerimento
+                    TipoRequerimento tipo = new TipoRequerimento();
+                    tipo.setId(rs.getInt("tipo_requerimento_id"));
+                    tipo.setDescricao(rs.getString("tipo_descricao"));
+                    req.setTipo(tipo);
+
+                    return req;
+                }
+            }
+        }
+        return null; // Caso o ID não exista no banco
     }
 
 }

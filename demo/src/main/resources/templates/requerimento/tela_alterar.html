@@ -1,37 +1,80 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alterar Requerimento</title>
-
-
-<!-- <script>
-    function preenche_radio(){
-        var turno = "{{usuario.turno}}";
-        document.getElementById(turno).checked = true;
-        // alert(turno); 
-    }
-</script> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Requerimento</title>
+    <style>
+        .form-card {
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            gap: 15px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .info-aluno {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #0056b3; }
+    </style>
 </head>
 <body>
 
-<h1 class="titulo">Adicionar Requerimento</h1>
+<h1 class="titulo">Alterar Requerimento #{{requerimento.id}}</h1>
 
-<form class="form-card" action="/requerimento/tela_alterar/" method="post">
+<div class="info-aluno">
+    <strong>Aluno:</strong> {{requerimento.aluno.usuario.nome}} <br>
+    <strong>Curso:</strong> {{requerimento.aluno.curso.nome}} <br>
+    <strong>Status Atual:</strong> {{requerimento.status}}
+</div>
 
+<form class="form-card" action="/requerimento/alterar/{{requerimento.id}}" method="post" enctype="multipart/form-data">
 
+    <label>Matrícula (Manual):</label>
+    <input type="text" name="matricula" value="{{requerimento.aluno.matricula}}" required>
 
-    
-    
-    <button type="submit">Salvar</button>
+    <label>Tipo de Requerimento:</label>
+    <select name="tipo_id">
+        {{#tipos}}
+        <option value="{{id}}">{{descricao}}</option>
+        {{/tipos}}
+    </select>
 
+    <label>Observação:</label>
+    <textarea name="observacao" rows="5">{{requerimento.observacao}}</textarea>
+
+    <label>Alterar Status:</label>
+    <select name="status">
+        <option value="EM ANALISE">Em analise</option>
+        <option value="DEFERIDO">Aprovar (Deferir)</option>
+        <option value="INDEFERIDO">Reprovar (Indeferir)</option>
+    </select>
+
+    <hr>
+    <label>Substituir Anexo (Opcional):</label>
+    <p style="font-size: 0.8em; color: gray;">Se selecionar um arquivo, o anterior será apagado.</p>
+    <input type="file" name="anexo">
+
+    <button type="submit">Salvar Alterações</button>
 
 </form>
 
-
-<a href="/alunos"> voltar </a>
-
+<br>
+<a href="/requerimento/meus_pedidos?matricula={{requerimento.aluno.matricula}}">Voltar</a>
 
 </body>
 </html>

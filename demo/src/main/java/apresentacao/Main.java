@@ -451,6 +451,53 @@ public class Main {
                 }
             });
 
+            config.routes.get("/requerimento/alterar/{id}", ctx -> {
+                int id = Integer.parseInt(ctx.pathParam("id"));
+                Requerimento req = new RequerimentoDAO().buscarPorId(id);
+
+                if (req != null) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("requerimento", req);
+                    map.put("tipos", new TipoRequerimentoDAO().listarTodos());
+                    ctx.render("/templates/requerimento/tela_alterar.html", map);
+                } else {
+                    ctx.result("Requerimento não encontrado.");
+                }
+            });
+
+            config.routes.post("/requerimento/alterar/{id}", ctx -> {
+                int id = Integer.parseInt(ctx.pathParam("id"));
+                String novoStatus = ctx.formParam("status");
+
+                Requerimento req = new Requerimento();
+                req.setId(id);
+                req.setStatus(novoStatus);
+                req.setObservacao(ctx.formParam("observacao")); 
+                
+                // 1. Atualiza o Requerimento (Status e Data Encerramento)
+                if (new RequerimentoDAO().atualizar(req)) {
+                    
+                    // 2. Opcional: Se o usuário enviou um novo arquivo na correção
+                    UploadedFile file = ctx.uploadedFile("anexo");
+                    if (file != null && file.size() > 0) {
+                        Anexo anexo = new Anexo();
+                        anexo.setDescricao(file.filename());
+                        anexo.setArquivo(file.content().readAllBytes());
+                        
+                        Requerimento reqPai = new Requerimento();
+                        reqPai.setId(id);
+                        anexo.setRequerimento(reqPai);
+
+                        // Chama o método que deleta o antigo e insere o novo
+                        new AnexoDAO().atualizar(anexo);
+                    }
+
+                    ctx.redirect("/requerimento");
+                } else {
+                    ctx.result("Erro ao atualizar status do requerimento.");
+                }
+            });
+
           
 
             
