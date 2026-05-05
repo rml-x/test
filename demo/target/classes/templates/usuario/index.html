@@ -5,6 +5,151 @@
 <meta charset="UTF-8">
 <title>Lista de Usuarios</title>
 
+<style>
+        /* Configurações Gerais - Padronizado com o sistema */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .titulo {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* Botão Adicionar */
+        .botao-adicionar {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .botao-adicionar:hover {
+            background-color: #219150;
+        }
+
+        /* Grid de Cards */
+        .lista-usuarios {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* Card do Usuário */
+        .lista-usuarios li {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .lista-usuarios li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Conteúdo do Card */
+        .badge {
+            background: #3498db;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .nome-usuario {
+            display: block;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 15px 0;
+            line-height: 1.4;
+        }
+
+        /* Botões de Ação */
+        .acoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-excluir, .btn-alterar {
+            flex: 1;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9em;
+            text-align: center;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .btn-excluir {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        /* Corrigido para laranja conforme o padrão de alteração */
+        .btn-alterar {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .btn-excluir:hover, .btn-alterar:hover {
+            opacity: 0.85;
+        }
+
+        /* Link Voltar */
+        .link-voltar {
+            display: inline-block;
+            margin-top: 30px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .link-voltar:hover {
+            text-decoration: underline;
+        }
+
+
+
+        a[href^="/"] {
+        color: #04141f;
+        text-decoration: none;
+        margin-right: 15px;
+        font-weight: 500;
+    }
+
+    a[href^="/"]:hover { text-decoration: underline; }
+
+
+    .hr{
+      color: #333;
+      
+    }
+    </style>
+
+
 
 </head>
 <body>
@@ -21,9 +166,12 @@
         </div>
 
         <a class="btn-excluir" href="/usuario/excluir/{{id}}">Excluir</a>
-          <a class="btn-excluir" href="/usuario/tela_alterar/{{id}}">Alterar</a>
-
+          <a class="btn-alterar" href="/usuario/tela_alterar/{{id}}">Alterar</a>
+<br>
     </li>
+
+    <br>
+    <hr style="height: 2px; border-width: 0; color: gray; background-color: gray;">
 
   {{/vetorUsuario}}
 </ul>

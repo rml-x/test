@@ -3,51 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <title>Requerimentos - {{nome_aluno}}</title>
-    
     <style>
-        .btn-acao { padding: 4px 8px; text-decoration: none; border-radius: 4px; }
-        .view { background: #e0f7fa; color: #006064; }
-        .edit { background: #fff3e0; color: #e65100; }
+        /* Configurações Gerais - Padronizado */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .titulo-container {
+            border-bottom: 2px solid #3498db;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+        }
+
+        .titulo {
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .subtitulo {
+            color: #7f8c8d;
+            margin: 5px 0 0 0;
+            font-weight: normal;
+        }
+
+        /* Card que envolve a Tabela */
+        .tabela-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        /* Cabeçalho da Tabela */
+        thead th {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid #eee;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        /* Linhas da Tabela */
+        tbody td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background-color: #fcfcfc;
+        }
+
+        /* Estilo para as Badges de Status */
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        /* Cores dinâmicas de Status (Funcionam se o texto for EXATAMENTE esse) */
+        .status-DEFERIDO { background: #e8f5e9; color: #2e7d32; }
+        .status-INDEFERIDO { background: #ffebee; color: #c62828; }
+        .status-PENDENTE, .status-ABERTO { background: #fff3e0; color: #e65100; }
+
+        /* Botões de Ação */
+        .btn-acao {
+            display: inline-block;
+            padding: 6px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .edit {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .edit:hover {
+            background-color: #d35400;
+        }
+
+        /* Link Voltar */
+        .link-voltar {
+            display: inline-block;
+            margin-top: 25px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .link-voltar:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
-    <h2>Listagem de Requerimentos</h2>
-    <h3>Aluno: {{nome_aluno}} | Matrícula: {{matricula}}</h3>
+    <div class="titulo-container">
+        <h1 class="titulo">Listagem de Requerimentos</h1>
+        <h3 class="subtitulo">Aluno: <strong>{{aluno.nome}}</strong> | Matrícula: <strong>{{matricula}}</strong></h3>
+    </div>
 
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Tipo</th>
-                <th>Status</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#lista}}
-            <tr>
-                <td>{{id}}</td>
-                <td>{{tipo.descricao}}</td>
-                <td><strong>{{status}}</strong></td>
-                <td>
-                    <a href="/requerimento/anexo/visualizar/{{id}}" target="_blank" class="btn-acao view">👁️ Ver Anexo</a>
-                    
-                    <a href="/requerimento/alterar/{{id}}" class="btn-acao edit">✏️ Editar</a>
-                </td>
-            </tr>
-            {{/lista}}
-            
-            {{^lista}}
-            <tr>
-                <td colspan="4">Nenhum requerimento encontrado para este aluno.</td>
-            </tr>
-            {{/lista}}
-        </tbody>
-    </table>
+    <div class="tabela-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo</th>
+                    <th>Data Abertura</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#lista}}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{tipo.descricao}}</td>
+                    <td>{{dataHoraAbertura}}</td>
+                    <td>
+                        <span class="status-badge status-{{status}}">{{status}}</span>
+                    </td>
+                    <td>
+                        <a href="/requerimento/alterar/{{id}}" class="btn-acao edit">Editar</a>
+                    </td>
+                </tr>
+                {{/lista}}
+                
+                {{^lista}}
+                <tr>
+                    <td colspan="5" style="text-align: center; color: #999; padding: 30px;">
+                        Nenhum requerimento encontrado para este aluno.
+                    </td>
+                </tr>
+                {{/lista}}
+            </tbody>
+        </table>
+    </div>
 
-    <br>
-    <a href="/alunos">Voltar para Alunos</a>
+    <a href="/alunos" class="link-voltar">Voltar para Lista de Alunos</a>
 
 </body>
 </html>

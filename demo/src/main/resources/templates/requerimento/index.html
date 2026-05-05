@@ -1,47 +1,217 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>Lista de Requerimentos</title>
+    <meta charset="UTF-8">
+    <title>Lista de Requerimentos</title>
+    <style>
+        /* Configurações Gerais - Padronizado */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+        }
 
+        .titulo {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
 
+        /* Botão Adicionar */
+        .botao-adicionar {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin-bottom: 25px;
+        }
+
+        .botao-adicionar:hover {
+            background-color: #219150;
+        }
+
+        /* Grid de Cards */
+        .lista-requerimentos {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        /* Card do Requerimento */
+        .lista-requerimentos li {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            border-left: 5px solid #3498db; /* Destaque lateral azul */
+        }
+
+        .lista-requerimentos li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        /* IDs e Badges */
+        .header-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .badge-id {
+            background: #ecf0f1;
+            color: #7f8c8d;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+
+        .status-tag {
+            background: #34495e;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Informações do Aluno e Requerimento */
+        .nome-aluno {
+            display: block;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .info-linha {
+            display: block;
+            font-size: 0.9em;
+            margin-bottom: 4px;
+            color: #555;
+        }
+
+        .info-linha strong { color: #2c3e50; }
+
+        .tipo-destaque {
+            background: #e8f4fd;
+            color: #2980b9;
+            padding: 8px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .observacao-box {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            font-style: italic;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        /* Botões de Ação */
+        .acoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-excluir, .btn-alterar {
+            flex: 1;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+            text-align: center;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+
+        .btn-excluir { background-color: #e74c3c; color: white; }
+        .btn-alterar { background-color: #f39c12; color: white; }
+
+        .btn-excluir:hover, .btn-alterar:hover { opacity: 0.85; }
+
+        /* Rodapé de navegação */
+        .footer-nav {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .footer-nav a {
+            color: #3498db;
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: bold;
+        }
+
+        .footer-nav a:hover { text-decoration: underline; }
+
+    </style>
 </head>
 <body>
+
 <h1 class="titulo">Lista de Requerimentos</h1>
 
-<a class="botao-adicionar" href="/requerimento/tela_adicionar">+ Adicionar Requerimento</a>
+<a class="botao-adicionar" href="/requerimento/tela_adicionar">+ Novo Requerimento</a>
 
-<ul class="lista-cursos">
+<ul class="lista-requerimentos">
   {{#lista}}
     <li>
-        <div>
-            <span class="matricula">{{aluno.matricula}}</span>
-            <span class="nome-aluno">{{aluno.usuario.nome}}</span>
-            <span class="curso">{{aluno.curso.nome}}</span>
-            <span class="status">{{status}}</span>
-            <span class="id">ID {{id}}</span>
-            <span class="observacao">{{observacao}}</span>
-            
-            <span class="data_hora_abertura">{{dataAberturaStr}}</span>
-            
-            <span class="data_hora_encerramento">{{dataEncerramentoStr}}</span>
-          
-            <span class="tipo_requerimento">{{tipo.descricao}}</span>
-
+        <div class="header-card">
+            <span class="badge-id">ID #{{id}}</span>
+            <span class="status-tag">{{status}}</span>
         </div>
 
-        <a class="btn-excluir" href="/requerimento/excluir/{{id}}">Excluir</a>
-        <a class="btn-alterar" href="/requerimento/alterar/{{id}}">Alterar</a>
+        <span class="nome-aluno">{{aluno.usuario.nome}}</span>
+        
+        <span class="info-linha"><strong>Matrícula:</strong> {{aluno.matricula}}</span>
+        <span class="info-linha"><strong>Curso:</strong> {{aluno.curso.nome}}</span>
+        
+        <div class="tipo-destaque">
+            {{tipo.descricao}}
+        </div>
 
+        <span class="info-linha"><strong>Abertura:</strong> {{dataAberturaStr}}</span>
+        {{#dataEncerramentoStr}}
+        <span class="info-linha"><strong>Encerramento:</strong> {{dataEncerramentoStr}}</span>
+        {{/dataEncerramentoStr}}
+
+        <div class="observacao-box">
+            "{{observacao}}"
+        </div>
+
+        <div class="acoes">
+            <a class="btn-excluir" href="/requerimento/excluir/{{id}}">Excluir</a>
+            <a class="btn-alterar" href="/requerimento/alterar/{{id}}">Alterar</a>
+        </div>
     </li>
-
   {{/lista}}
 </ul>
 
-<a href="/"> voltar </a>
-<a href="/tipo_requerimento">Tipos de Requerimento</a>
-    
+<div class="footer-nav">
+    <a href="/">Voltar ao Início</a>
+    <a href="/tipo_requerimento">Gerenciar Tipos</a>
+</div>
 
 </body>
 </html>

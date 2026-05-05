@@ -3,8 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adicionar usuario</title>
+<title>Alterar usuario</title>
 
+
+<style>
+        /* Configurações Gerais - Padronizado */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .titulo {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        /* Card do Formulário */
+        .form-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 0.9em;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        /* Cor de foco laranja para indicar Edição */
+        input:focus {
+            border-color: #f39c12;
+            outline: none;
+            box-shadow: 0 0 5px rgba(243, 156, 18, 0.3);
+        }
+
+        /* Seção de Senha */
+        .senha-container {
+            grid-column: span 2;
+            border-radius: 5px;
+            border: 1px solid #ffffff;
+            margin-top: 10px;
+        }
+
+        .checkbox-group {
+            display: auto;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            color: #854d0e;
+        }
+
+        .checkbox-group input {
+            width: flex;
+        }
+
+        /* Botão Alterar (Laranja) */
+        .botao-container {
+            grid-column: span 2;
+            margin-top: 10px;
+        }
+
+        .botao {
+            width: 100%;
+            background-color: #f39c12;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .botao:hover {
+            background-color: #d35400;
+        }
+
+        .link-voltar {
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .link-voltar:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 2000px) {
+            .form-card { grid-template-columns: 1fr; }
+            .full-width, .botao-container, .senha-container { grid-column: span 1; }
+        }
+
+
+        a[href^="/"] {
+        color: #04141f;
+        text-decoration: none;
+        margin-right: 15px;
+        font-weight: 500;
+    }
+
+    a[href^="/"]:hover { text-decoration: underline; }
+    </style>
 
 <!-- <script>
     function preenche_radio(){
@@ -16,7 +160,7 @@
 </head>
 <body>
 
-<h1 class="titulo">Adicionar usuario</h1>
+<h1 class="titulo">Alterar usuario</h1>
 
 <form class="form-card" action="/usuario/tela_alterar" method="post">
 
@@ -26,30 +170,36 @@
 <label>Nome</label>
 <input type="text" name="nome" value="{{usuario.nome}}">
 
-<label>cpf</label>
+<label>CPF</label>
 <input type="text" name="cpf" value="{{usuario.cpf}}">
 
-<label>email</label>
+<label>Email</label>
 <input type="text" name="email" value="{{usuario.email}}">
 
-<label>cep</label>
+<label>CEP</label>
 <input type="text" name="cep" value="{{usuario.cep}}">
 
-<label>rua</label>
+<label>Rua</label>
 <input type="text" name="rua" value="{{usuario.rua}}">
 
-<label>nro</label>
+<label>Numero</label>
 <input type="text" name="nro" value="{{usuario.nro}}">
 
-<label>complemento</label>
+<label>Complemento</label>
 <input type="text" name="complemento" value="{{usuario.complemento}}">
 
 
 
-<label>senha</label> <input type="checkbox" value="manter" name="manter_senha" checked> deseja manter a senha antiga
-<input type="password" name="senha">
-
-<input type="hidden" name="id" value="{{usuario.id}}">
+<div class="senha-container">
+        <div class="checkbox-group">
+            <input type="checkbox" id="manter_senha" value="manter" name="manter_senha" checked>
+            <label for="manter_senha">Desejo manter a senha antiga</label>
+        </div>
+        <div class="form-group">
+            <label>Nova Senha (deixe vazio se não for alterar)</label>
+            <input type="password" name="senha" placeholder="Digite a nova senha">
+        </div>
+    </div>
 
 <input class="botao" type="submit" value="Alterar">
 

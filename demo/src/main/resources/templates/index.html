@@ -5,6 +5,144 @@
 <meta charset="UTF-8">
 <title>Lista de Cursos</title>
 
+<style>
+    /* Configurações Gerais */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f7f6;
+        color: #333;
+        margin: 0;
+        padding: 40px;
+    }
+
+    .titulo {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+    }
+
+    /* Botão Adicionar */
+    .botao-adicionar {
+        display: inline-block;
+        background-color: #27ae60;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background 0.3s;
+        margin-bottom: 20px;
+    }
+
+    .botao-adicionar:hover {
+        background-color: #219150;
+    }
+
+    /* Lista de Cursos (Grid) */
+    .lista-cursos {
+        list-style: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    /* Card do Curso */
+    .lista-cursos li {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .lista-cursos li:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Elementos Internos do Card */
+    .badge {
+        background: #4d83a7;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.8em;
+    }
+
+    .nome-curso {
+        display: block;
+        font-size: 1.4em;
+        font-weight: bold;
+        color: #2c3e50;
+        margin: 10px 0 5px 0;
+    }
+
+    .site {
+        color: #7f8c8d;
+        font-size: 0.9em;
+        word-break: break-all;
+    }
+
+    .turno {
+        display: inline-block;
+        margin-top: 10px;
+        font-weight: 600;
+        color: #16a085;
+    }
+
+    .ativo {
+        display: block;
+        margin-top: 5px;
+        font-size: 0.85em;
+        font-style: italic;
+    }
+
+    /* Botões de Ação */
+    .btn-excluir, .btn-alterar {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 8px 12px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 0.9em;
+        text-align: center;
+    }
+
+    .btn-excluir {
+        background-color: #e74c3c;
+        color: white;
+        margin-right: 5px;
+    }
+
+    .btn-excluir:hover { background-color: #c0392b; }
+
+    .btn-alterar {
+        background-color: #f39c12;
+        color: white;
+    }
+
+    .btn-alterar:hover { background-color: #d35400; }
+
+    /* Links de Navegação Inferior */
+    nav-links {
+        margin-top: 40px;
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
+    }
+
+    a[href^="/"] {
+        color: #04141f;
+        text-decoration: none;
+        margin-right: 15px;
+        font-weight: 500;
+    }
+
+    a[href^="/"]:hover { text-decoration: underline; }
+</style>
 
 
 </head>
@@ -39,8 +177,8 @@
   {{/vetorCurso}}
 </ul>
 
-  <a href="/usuarios">usuarios</a>
-  <a href="/alunos">alunos</a>
+  <a href="/usuarios">Usuarios</a>
+  <a href="/alunos">Alunos</a>
   <a href="/requerimento">Requerimentos</a>
 
 </body>

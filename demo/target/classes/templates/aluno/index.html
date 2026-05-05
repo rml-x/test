@@ -6,6 +6,154 @@
 <title>Lista de Alunos</title>
 
 
+<style>
+        /* Configurações Gerais - Padronizado com a página de Cursos */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .titulo {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* Botão Adicionar */
+        .botao-adicionar {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .botao-adicionar:hover {
+            background-color: #219150;
+        }
+
+        /* Lista de Cards (Grid) */
+        .lista-alunos {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 520px 25px; 
+        }
+
+        /* Card do Aluno */
+        .lista-alunos li {
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 8px;
+            padding: 200px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .lista-alunos li:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Conteúdo do Card */
+        .badge {
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .nome-aluno {
+            display: block;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0 5px 0;
+        }
+
+        .curso {
+            display: block;
+            color: #16a085;
+            font-weight: 600;
+            font-size: 0.95em;
+            margin-bottom: 5px;
+        }
+
+        .status {
+            display: block;
+            font-size: 0.85em;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        /* Botões de Ação */
+        .acoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .btn-excluir, .btn-alterar, .btn-requerimentos {
+            flex: 1;
+            min-width: 80px;
+            padding: 8px 5px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.85em;
+            text-align: center;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .btn-excluir { background-color: #e74c3c; color: white; }
+        .btn-alterar { background-color: #f39c12; color: white; }
+        .btn-requerimentos { 
+            background-color: #34495e; 
+            color: white; 
+            flex-basis: 100%; /* Faz o botão de requerimentos ocupar a linha toda embaixo */
+            margin-top: 5px;
+        }
+
+        .btn-excluir:hover, .btn-alterar:hover, .btn-requerimentos:hover {
+            opacity: 0.85;
+        }
+
+        /* Link de Voltar */
+        .voltar {
+            display: block;
+            margin-top: 30px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        .voltar:hover { text-decoration: underline; }
+
+
+        a[href^="/"] {
+        color: #04141f;
+        text-decoration: none;
+        margin-right: 15px;
+        font-weight: 500;
+    }
+
+    a[href^="/"]:hover { text-decoration: underline; }
+
+    </style>
+
 </head>
 <body>
 <h1 class="titulo">Lista de Alunos</h1>
@@ -27,6 +175,7 @@
         <a class="btn-requerimentos" href="/requerimento/aluno/{{matricula}}">Requerimentos do Aluno</a>
 
     </li>
+    <br>
 
   {{/vetorAluno}}
 </ul>

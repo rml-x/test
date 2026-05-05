@@ -508,8 +508,12 @@ public class Main {
                 map.put("lista", lista);
                 map.put("matricula", matricula);
 
-                // O Mustache procura a partir de 'src/main/resources/templates/'
-                // Se o arquivo está na subpasta 'aluno', o caminho deve ser:
+               if (!lista.isEmpty()) {
+              
+                String nome = lista.get(0).getAluno().getUsuario().getNome();
+                map.put("aluno.nome", nome); 
+                }
+
                 ctx.render("templates/aluno/requerimentosAluno.html", map); 
             });
 
