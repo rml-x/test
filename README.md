@@ -97,4 +97,3 @@ Cada módulo possui ainda rotas de adição (`/tela_adicionar`), edição (`/tel
 ## Observações
 
 - Este é um projeto de estudo/demonstração (nome do repositório: `test`), sem autenticação implementada nas rotas.
-- O arquivo `demo/README.TXT` original apenas alerta que o script SQL está na pasta `resources`.
